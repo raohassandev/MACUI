@@ -1,8 +1,10 @@
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { store } from './redux/store/store';
 import { ThemeProvider } from './components/ui/theme/ThemeProvider';
 import { LayoutProvider } from './contexts/LayoutContext';
 import { ComponentDemoPage } from './pages/ComponentDemoPage';
+import DashboardPage from './pages/DashboardPage';
 import MainLayout from './layouts/MainLayout';
 
 function App() {
@@ -10,9 +12,22 @@ function App() {
     <Provider store={store}>
       <ThemeProvider>
         <LayoutProvider defaultLayout="client">
-          <MainLayout>
-            <ComponentDemoPage />
-          </MainLayout>
+          <Router>
+            <MainLayout>
+              <Routes>
+                {/* Dashboard Routes */}
+                <Route path="/dashboard/:id" element={<DashboardPage />} />
+                <Route path="/dashboard" element={<Navigate to="/dashboard/new" />} />
+                
+                {/* Component Demo Page */}
+                <Route path="/components" element={<ComponentDemoPage />} />
+                
+                {/* Default Route */}
+                <Route path="/" element={<Navigate to="/dashboard" />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </MainLayout>
+          </Router>
         </LayoutProvider>
       </ThemeProvider>
     </Provider>
