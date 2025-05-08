@@ -1,0 +1,157 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../store/store';
+
+// Theme types
+export interface ThemeColors {
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  text: string;
+}
+
+export interface Theme {
+  id: string;
+  name: string;
+  colors: ThemeColors;
+}
+
+// Predefined themes
+export const defaultTheme: Theme = {
+  id: 'default',
+  name: 'Default',
+  colors: {
+    primary: '#646cff',
+    secondary: '#535bf2',
+    accent: '#747bff',
+    background: '#242424',
+    text: 'rgba(255, 255, 255, 0.87)',
+  },
+};
+
+export const lightTheme: Theme = {
+  id: 'light',
+  name: 'Light',
+  colors: {
+    primary: '#646cff',
+    secondary: '#535bf2',
+    accent: '#747bff',
+    background: '#ffffff',
+    text: '#213547',
+  },
+};
+
+// State type
+interface ThemeState {
+  currentTheme: Theme;
+  themes: Theme[];
+}
+
+// Load themes from localStorage if available
+const savedThemes = typeof window !== 'undefined' ? localStorage.getItem('themes') : null;
+const savedCurrentTheme = typeof window !== 'undefined' ? localStorage.getItem('currentTheme') : null;
+
+// Initial state
+const initialState: ThemeState = {
+  currentTheme: savedCurrentTheme 
+    ? JSON.parse(savedCurrentTheme) 
+    : defaultTheme,
+  themes: savedThemes 
+    ? JSON.parse(savedThemes) 
+    : [defaultTheme, lightTheme],
+};
+
+// Create the slice
+export const themeSlice = createSlice({
+  name: 'theme',
+  initialState,
+  reducers: {
+    setCurrentTheme: (state, action: PayloadAction<Theme>) => {
+      state.currentTheme = action.payload;
+      
+      // Apply theme to CSS variables if in browser environment
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('currentTheme', JSON.stringify(action.payload));
+        Object.entries(action.payload.colors).forEach(([key, value]) => {
+          document.documentElement.style.setProperty(`--color-${key}`, value);
+        });
+      }
+    },
+    addTheme: (state, action: PayloadAction<Theme>) => {
+      state.themes.push(action.payload);
+      
+      // Save to localStorage if in browser environment
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('themes', JSON.stringify(state.themes));
+      }
+    },
+    updateTheme: (state, action: PayloadAction<{ id: string; updatedTheme: Partial<Theme> }>) => {
+      const { id, updatedTheme } = action.payload;
+      
+      state.themes = state.themes.map((theme) => 
+        theme.id === id ? { ...theme, ...updatedTheme } : theme
+      );
+      
+      if (state.currentTheme.id === id) {
+        state.currentTheme = { ...state.currentTheme, ...updatedTheme };
+        
+        // Update CSS variables if colors were changed and in browser environment
+        if (typeof window !== 'undefined' && updatedTheme.colors) {
+          Object.entries(updatedTheme.colors).forEach(([key, value]) => {
+            document.documentElement.style.setProperty(`--color-${key}`, value);
+          });
+          localStorage.setItem('currentTheme', JSON.stringify(state.currentTheme));
+        }
+      }
+      
+      // Save to localStorage if in browser environment
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('themes', JSON.stringify(state.themes));
+      }
+    },
+    deleteTheme: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      
+      // Prevent deleting if it's the last theme
+      if (state.themes.length <= 1) {
+        return;
+      }
+      
+      // If deleting current theme, switch to the first available theme
+      if (state.currentTheme.id === id) {
+        const newCurrentTheme = state.themes.find((t) => t.id !== id) || defaultTheme;
+        state.currentTheme = newCurrentTheme;
+        
+        // Apply new theme to CSS variables if in browser environment
+        if (typeof window !== 'undefined') {
+          Object.entries(newCurrentTheme.colors).forEach(([key, value]) => {
+            document.documentElement.style.setProperty(`--color-${key}`, value);
+          });
+          localStorage.setItem('currentTheme', JSON.stringify(newCurrentTheme));
+        }
+      }
+      
+      state.themes = state.themes.filter((theme) => theme.id !== id);
+      
+      // Save to localStorage if in browser environment
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('themes', JSON.stringify(state.themes));
+      }
+    },
+  },
+});
+
+// Export actions
+export const { 
+  setCurrentTheme, 
+  addTheme, 
+  updateTheme, 
+  deleteTheme 
+} = themeSlice.actions;
+
+// Export selectors
+export const selectCurrentTheme = (state: RootState) => state.theme.currentTheme;
+export const selectThemes = (state: RootState) => state.theme.themes;
+
+// Export reducer
+export default themeSlice.reducer;
