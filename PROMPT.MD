@@ -81,7 +81,7 @@ You WILL:
 ## 🧠 Claude Code Rules
 1. Stay consistent with this architecture—**do not generate backend code**.
 2. Always provide a high-level summary before showing code.
-3. Do not switch between approaches (e.g., don’t use both local and Redux state for the same feature).
+3. Do not switch between approaches (e.g., don't use both local and Redux state for the same feature).
 4. Keep layout modular (pages, components, hooks, store, services).
 5. Every time a new file is created, show file path and filename.
 6. Do not leave placeholder or incomplete code without noting TODOs.
@@ -128,5 +128,63 @@ Claude, please begin by:
 
 ---
 
+## 🎨 Enhanced Customization Requirements
+
+### 1. Widget Customization
+- Every component must be fully customizable in all respects (similar to Grafana)
+- Customization options for each widget should include:
+  - Show/hide labels
+  - Label positioning (top, bottom, left, right, inside)
+  - Font styles and sizes
+  - Color schemes and themes
+  - Background transparency and borders
+  - Axis options for charts (min/max, grid lines, tick marks)
+  - Legend positioning and display options
+  - Thresholds with custom colors and indicators
+  - Multiple data series display options
+
+### 2. Layout Management
+- Dashboard layout customization options:
+  - Grid size and spacing
+  - Widget snapping settings
+  - Locked/unlocked positions
+  - Widget layering (z-index control)
+  - Position locking for critical widgets
+  - Responsive layout breakpoints
+  - Layout templates for quick setup
+
+### 3. Theme Settings
+- Create a dedicated theme settings page with:
+  - Global color palette configuration
+  - Light/dark mode toggle
+  - Custom theme creation and saving
+  - Font and typography settings
+  - Border and shadow preferences
+  - Widget style presets
+  - Import/export theme configurations
+
+### 4. Dashboard Management
+- On landing page:
+  - Show list of user's previous dashboards
+  - Option to create new dashboard
+  - Dashboard templates/presets
+  - Dashboard categories and tags
+  - Search and filter dashboards
+  - Dashboard preview thumbnails
+  - Dashboard sharing options
+
+### 5. Container Components
+- Create container components to manage:
+  - Widget grouping
+  - Tab containers
+  - Collapsible sections
+  - Card containers with headers
+  - Split-view containers
+  - Dashboard sections with titles
+  - Multi-view widgets (different visualization modes)
+
+---
+
 Claude, do not proceed unless each step is complete and consistent. After each step, summarize progress, update the project structure tree, and ask what to do next.
 
+Remember: Keep this PROMPT.md file updated with initial requirements and all additional instructions throughout the project to maintain consistency.
