@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { useAppSelector } from '@/redux/hooks/hooks';
-import { selectCurrentTheme } from '@/redux/features/theme/themeSlice';
+import { createContext, useState, useEffect, ReactNode } from 'react';
+import { useAppSelector } from '../../../redux/hooks/hooks';
+import { selectCurrentTheme } from '../../../redux/features/theme/themeSlice';
 
 type Theme = 'light' | 'dark' | 'system';
 

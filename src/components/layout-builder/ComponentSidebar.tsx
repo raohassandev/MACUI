@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDrag } from 'react-dnd';
-import { ComponentType, useLayoutBuilder } from '@/contexts/LayoutBuilderContext';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/layout/Card';
-import { Column } from '@/components/ui/layout/Column';
+import { ComponentType, useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/layout/Card';
+import { Column } from '../ui/layout/Column';
 
 // Component item that can be dragged from the sidebar
 interface ComponentItemProps {
@@ -12,6 +12,7 @@ interface ComponentItemProps {
 }
 
 const ComponentItem: React.FC<ComponentItemProps> = ({ type, label, icon }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'COMPONENT',
     item: { type },
@@ -19,10 +20,13 @@ const ComponentItem: React.FC<ComponentItemProps> = ({ type, label, icon }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+  
+  // Connect drag ref
+  drag(ref);
 
   return (
     <div
-      ref={drag}
+      ref={ref}
       className={`p-2 mb-2 bg-background border border-border rounded cursor-move flex items-center gap-2 ${
         isDragging ? 'opacity-50' : 'opacity-100'
       }`}

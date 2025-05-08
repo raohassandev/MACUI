@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GaugeWidget as GaugeWidgetType } from '../../../types/dashboard';
 import { fetchTagById } from '../../../services/api/tag';
-import { mockTags } from '../../../services/api/tag';
 
 interface GaugeWidgetProps {
   widget: GaugeWidgetType;

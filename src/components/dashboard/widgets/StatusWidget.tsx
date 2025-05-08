@@ -8,7 +8,6 @@ interface StatusWidgetProps {
 
 export const StatusWidget: React.FC<StatusWidgetProps> = ({ widget }) => {
   const [value, setValue] = useState<string | number | null>(null);
-  const [previousValue, setPreviousValue] = useState<string | number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
@@ -31,9 +30,6 @@ export const StatusWidget: React.FC<StatusWidgetProps> = ({ widget }) => {
         
         // Fetch the tag data
         const tagData = await fetchTagById(widget.tagId);
-        
-        // Update previous value before setting the new one
-        setPreviousValue(value);
         
         // Use the last value from the tag
         if (tagData.lastValue !== undefined) {
@@ -60,7 +56,6 @@ export const StatusWidget: React.FC<StatusWidgetProps> = ({ widget }) => {
       }
     };
 
-    // Fetch data immediately
     fetchData();
 
     // Clear any existing interval

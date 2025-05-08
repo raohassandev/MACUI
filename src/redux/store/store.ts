@@ -4,12 +4,14 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { dashboardReducer, widgetReducer, uiReducer } from '../slices';
+import themeReducer from '../features/theme/themeSlice';
 
 export const store = configureStore({
   reducer: {
     dashboard: dashboardReducer,
     widget: widgetReducer,
     ui: uiReducer,
+    theme: themeReducer,
   },
   // Enable for development only
   devTools: true,

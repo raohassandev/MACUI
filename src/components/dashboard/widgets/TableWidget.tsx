@@ -286,7 +286,7 @@ export const TableWidget: React.FC<TableWidgetProps> = ({ widget }) => {
     
     // Handle numeric values
     if (typeof value === 'number') {
-      let formatted = value;
+      let formatted: string;
       
       // Apply format if available
       if (format) {
@@ -296,11 +296,13 @@ export const TableWidget: React.FC<TableWidgetProps> = ({ widget }) => {
           formatted = value.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         } else if (format === '0.00') {
           formatted = value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+          formatted = value.toString();
         }
       } else {
         // Default formatting
         formatted = Number.isInteger(value) 
-          ? value 
+          ? value.toLocaleString(undefined, { maximumFractionDigits: 0 }) 
           : value.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 2 });
       }
       

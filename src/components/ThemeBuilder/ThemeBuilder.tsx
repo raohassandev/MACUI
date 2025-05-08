@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useTheme } from '@/redux/hooks/useTheme';
+import { useTheme } from '../../redux/hooks/useTheme';
 import { ColorPicker } from './ColorPicker';
-import { ThemeColors } from '@/redux/features/theme/themeSlice';
+import { ThemeColors } from '../../redux/features/theme/themeSlice';
 
 export const ThemeBuilder = () => {
   const { addTheme } = useTheme();

@@ -8,8 +8,14 @@ interface ChartWidgetProps {
   widget: ChartWidgetType;
 }
 
+interface DataPoint {
+  timestamp: string;
+  value: any;
+  [key: string]: any;
+}
+
 export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
-  const [data, setData] = useState<Array<any>>([]);
+  const [data, setData] = useState<DataPoint[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -33,7 +39,7 @@ export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
         );
         
         // Format the data for Recharts
-        const formattedData = history.map(point => ({
+        const formattedData: DataPoint[] = history.map(point => ({
           timestamp: new Date(point.timestamp).toLocaleTimeString(),
           value: point.value,
         }));
@@ -113,6 +119,11 @@ export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
       unit: unit ? ` ${unit}` : '',
     };
 
+    // Type-safe tooltip formatter
+    const tooltipFormatter = (value: any, name: string) => {
+      return [`${value}${unit ? ` ${unit}` : ''}`, name === 'value' ? tag?.name || 'Value' : name];
+    };
+
     switch (widget.chartType) {
       case 'line':
         return (
@@ -121,7 +132,7 @@ export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
             <XAxis dataKey="timestamp" />
             <YAxis {...yAxisProps} />
             <Tooltip 
-              formatter={(value, name) => [`${value}${unit ? ` ${unit}` : ''}`, name === 'value' ? tag?.name || 'Value' : name]} 
+              formatter={tooltipFormatter} 
             />
             {widget.showLegend && <Legend />}
             <Line 
@@ -157,7 +168,7 @@ export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
             <XAxis dataKey="timestamp" />
             <YAxis {...yAxisProps} />
             <Tooltip 
-              formatter={(value, name) => [`${value}${unit ? ` ${unit}` : ''}`, name === 'value' ? tag?.name || 'Value' : name]} 
+              formatter={tooltipFormatter} 
             />
             {widget.showLegend && <Legend />}
             <Bar 
@@ -189,7 +200,7 @@ export const ChartWidget: React.FC<ChartWidgetProps> = ({ widget }) => {
             <XAxis dataKey="timestamp" />
             <YAxis {...yAxisProps} />
             <Tooltip 
-              formatter={(value, name) => [`${value}${unit ? ` ${unit}` : ''}`, name === 'value' ? tag?.name || 'Value' : name]} 
+              formatter={tooltipFormatter} 
             />
             {widget.showLegend && <Legend />}
             <Area 

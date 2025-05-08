@@ -28,7 +28,7 @@ export const AlertWidget: React.FC<AlertWidgetProps> = ({ widget }) => {
         
         // TODO: Replace with actual API call to fetch alerts
         // For now, generate mock alerts
-        const mockAlerts = generateMockAlerts(widget.filterTags);
+        const mockAlerts = generateMockAlerts();
         setAlerts(mockAlerts);
       } catch (err) {
         console.error('Error fetching alerts:', err);
@@ -45,10 +45,10 @@ export const AlertWidget: React.FC<AlertWidgetProps> = ({ widget }) => {
       const interval = setInterval(fetchAlerts, widget.refreshRate);
       return () => clearInterval(interval);
     }
-  }, [widget.refreshRate, widget.filterTags, widget.maxAlerts]);
+  }, [widget.refreshRate, widget.maxAlerts]);
 
   // Generate mock alerts
-  const generateMockAlerts = (filterTags?: string[]): Alert[] => {
+  const generateMockAlerts = (): Alert[] => {
     const alertLevels: ('info' | 'warning' | 'error')[] = ['info', 'warning', 'error'];
     const alertSources = [
       'Temperature Sensor 1',

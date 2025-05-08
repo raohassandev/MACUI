@@ -1,6 +1,6 @@
 import React from 'react';
 import { Widget } from '../../types/dashboard';
-import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectWidget } from '../../redux/slices/widgetSlice';
 import { selectDashboardEditMode } from '../../redux/slices/dashboardSlice';
 import { ChartWidget } from './widgets/ChartWidget';

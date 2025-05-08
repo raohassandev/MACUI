@@ -93,7 +93,7 @@ const generateMockHistory = (
   // Generate data based on tag type
   if (tag.valueType === 'number') {
     const baseValue = typeof tag.lastValue === 'number' ? tag.lastValue : 
-      (tag.minValue !== undefined ? tag.minValue + (tag.maxValue - tag.minValue) / 2 : 50);
+      (tag.minValue !== undefined && tag.maxValue !== undefined ? tag.minValue + (tag.maxValue - tag.minValue) / 2 : 50);
     const amplitude = tag.maxValue !== undefined && tag.minValue !== undefined ? 
       (tag.maxValue - tag.minValue) / 4 : 10;
 

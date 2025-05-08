@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { ThemeProviderContext } from '@/components/ui/theme/ThemeProvider';
+import { ThemeProviderContext } from '../../components/ui/theme/ThemeProvider';
 import { useAppSelector, useAppDispatch } from './hooks';
 import { 
   selectCurrentTheme,
   selectThemes,
-  setCurrentTheme as setReduxTheme
+  setCurrentTheme as setReduxTheme,
+  addTheme as addReduxTheme
 } from '../features/theme/themeSlice';
 import { Theme } from '../features/theme/themeSlice';
 
@@ -26,12 +27,18 @@ export const useTheme = () => {
     dispatch(setReduxTheme(theme));
   };
   
+  // Add new theme
+  const addTheme = (theme: Theme) => {
+    dispatch(addReduxTheme(theme));
+  };
+  
   return {
     // Theme mode from context
     ...context,
     // Theme colors and configuration from Redux
     currentTheme: currentReduxTheme,
     themes,
-    setCurrentTheme
+    setCurrentTheme,
+    addTheme
   };
 };

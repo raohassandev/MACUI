@@ -7,7 +7,7 @@ import {
   updateTheme,
   deleteTheme,
   Theme
-} from '../redux/slices/themeSlice';
+} from '../redux/features/theme/themeSlice';
 
 export const useTheme = () => {
   const dispatch = useAppDispatch();

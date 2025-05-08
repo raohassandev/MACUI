@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { ComponentPosition, useLayoutBuilder } from '@/contexts/LayoutBuilderContext';
-import { Card } from '@/components/ui/layout/Card';
-import { Button } from '@/components/ui/navigation/Button';
-import { Heading } from '@/components/ui/text/Heading';
-import { Text } from '@/components/ui/text/Text';
-import { Input } from '@/components/ui/inputs/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/inputs/Select';
+import { ComponentPosition, useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
+import { Card } from '../ui/layout/Card';
+import { Button } from '../ui/navigation/Button';
+import { Heading } from '../ui/text/Heading';
+import { Text } from '../ui/text/Text';
+import { Input } from '../ui/inputs/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/inputs/Select';
 
 interface DraggableComponentProps {
   component: ComponentPosition;
@@ -100,18 +100,17 @@ export const DraggableComponent: React.FC<DraggableComponentProps> = ({ componen
   // Set up drop to handle component movement within the layout area
   const [, drop] = useDrop({
     accept: 'LAYOUT_COMPONENT',
-    hover(item: any, monitor) {
+    hover(item: any) {
       if (!ref.current) {
         return;
       }
 
       // Only move the component if it's a different one
       if (item.id !== component.id) {
-        const hoverBoundingRect = ref.current.getBoundingClientRect();
+        // Get the bounding rect for future enhancement
+        // const hoverBoundingRect = ref.current.getBoundingClientRect();
         
-        // Get the center position of the hover target
-        const hoverX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2 + hoverBoundingRect.left;
-        const hoverY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2 + hoverBoundingRect.top;
+        // Get the center position of the hover target (using in future enhancements)
         
         // We can use this to adjust component position based on another component
         // This is a simplistic version - in a real app you might want more sophisticated positioning

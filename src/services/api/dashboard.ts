@@ -4,7 +4,7 @@
  * This service handles all dashboard-related API calls
  */
 
-import { Dashboard, Widget } from '../../types/dashboard';
+import { Dashboard } from '../../types/dashboard';
 
 // Mock API base URL - replace with actual API URL in production
 const API_BASE_URL = '/api';

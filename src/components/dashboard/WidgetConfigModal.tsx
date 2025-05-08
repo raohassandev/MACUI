@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectSelectedWidgetId, stopConfiguringWidget } from '../../redux/slices/widgetSlice';
 import { selectCurrentDashboard, updateWidget } from '../../redux/slices/dashboardSlice';
 import { Widget, Tag } from '../../types/dashboard';

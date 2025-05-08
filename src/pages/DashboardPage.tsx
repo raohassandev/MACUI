@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks/useAppSelector';
+import { useAppSelector, useAppDispatch } from '../hooks';
 import { 
   fetchDashboard, 
   createNewDashboard,

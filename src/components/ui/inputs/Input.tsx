@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 import { AlertCircle, Check } from "lucide-react";
 
 const inputVariants = cva(
@@ -33,7 +33,7 @@ const inputVariants = cva(
 );
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {
   label?: string;
   helperText?: string;
@@ -133,7 +133,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              inputVariants({ variant, size, state: inputState }),
+              inputVariants({ variant, size: size as any, state: inputState }),
               startAdornment && "pl-10",
               (endAdornment || inputState !== "default") && "pr-10",
               className

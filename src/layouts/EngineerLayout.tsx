@@ -1,25 +1,23 @@
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/layout/Card';
-import { Row } from '@/components/ui/layout/Row';
-import { Column } from '@/components/ui/layout/Column';
-import { Grid } from '@/components/ui/layout/Grid';
-import { Heading } from '@/components/ui/text/Heading';
-import { Text } from '@/components/ui/text/Text';
-import { Button } from '@/components/ui/navigation/Button';
-import { useTheme } from '@/redux/hooks/useTheme';
-import { ThemeColors } from '@/redux/features/theme/themeSlice';
-import { ThemeBuilder } from '@/components/ThemeBuilder/ThemeBuilder';
-import { ThemeSelector } from '@/components/ThemeSelector';
+import { ReactNode } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/layout/Card';
+import { Row } from '../components/ui/layout/Row';
+import { Column } from '../components/ui/layout/Column';
+import { Grid } from '../components/ui/layout/Grid';
+import { Heading } from '../components/ui/text/Heading';
+import { Button } from '../components/ui/navigation/Button';
+import { useTheme } from '../redux/hooks/useTheme';
+import { ThemeBuilder } from '../components/ThemeBuilder/ThemeBuilder';
+import { ThemeSelector } from '../components/ThemeSelector';
 
 interface EngineerLayoutProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 /**
  * EngineerLayout provides a technical interface with advanced theme customization 
  * options and debug tools intended for developers and engineers.
  */
-export const EngineerLayout: React.FC<EngineerLayoutProps> = ({ children }) => {
+export const EngineerLayout = ({ children }: EngineerLayoutProps) => {
   const { currentTheme, setTheme } = useTheme();
 
   // Display theme colors as CSS variables for debugging

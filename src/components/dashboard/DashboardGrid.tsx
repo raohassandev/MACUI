@@ -2,7 +2,7 @@ import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectCurrentDashboard, selectDashboardEditMode, updateLayout } from '../../redux/slices/dashboardSlice';
 import { Widget as WidgetType } from '../../types/dashboard';
 import WidgetWrapper from './WidgetWrapper';

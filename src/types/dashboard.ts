@@ -15,7 +15,7 @@ export interface Tag {
   maxValue?: number;
   refreshRate?: number; // in milliseconds
   status?: 'active' | 'inactive' | 'error';
-  lastValue?: any;
+  lastValue?: unknown;
   lastUpdated?: string;
 }
 
@@ -145,5 +145,5 @@ export interface Dashboard {
   isPublic?: boolean;
   widgets: Widget[];
   tags?: Tag[]; // Tags referenced by this dashboard
-  layout?: any; // Additional layout information
+  layout?: unknown; // Additional layout information
 }
