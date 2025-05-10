@@ -38,10 +38,13 @@
   box-sizing: border-box !important;
 }
 
-/* Make widgets more visible during drag */
-.react-grid-item.react-grid-placeholder {
-  background: rgba(0, 120, 255, 0.3) !important;
-  border: 2px dashed rgb(0, 90, 190) !important;
+/* Widget styling */
+.react-grid-item {
+  transition: box-shadow 0.2s ease !important;
+}
+
+.react-grid-item:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* Improve card container styling */

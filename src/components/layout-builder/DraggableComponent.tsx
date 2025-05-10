@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import React from 'react';
 import { ComponentPosition, useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
 import { Card } from '../ui/layout/Card';
 import { Button } from '../ui/navigation/Button';
@@ -83,46 +82,9 @@ const renderComponent = (component: ComponentPosition) => {
 };
 
 export const DraggableComponent: React.FC<DraggableComponentProps> = ({ component }) => {
-  const { selectComponent, moveComponent, removeComponent } = useLayoutBuilder();
+  const { selectComponent, removeComponent } = useLayoutBuilder();
   const { state } = useLayoutBuilder();
   const { selectedComponent } = state;
-  const ref = useRef<HTMLDivElement>(null);
-
-  // Set up drag
-  const [{ isDragging }, drag] = useDrag({
-    type: 'LAYOUT_COMPONENT',
-    item: { id: component.id, type: component.type },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-
-  // Set up drop to handle component movement within the layout area
-  const [, drop] = useDrop({
-    accept: 'LAYOUT_COMPONENT',
-    hover(item: any) {
-      if (!ref.current) {
-        return;
-      }
-
-      // Only move the component if it's a different one
-      if (item.id !== component.id) {
-        // Get the bounding rect for future enhancement
-        // const hoverBoundingRect = ref.current.getBoundingClientRect();
-        
-        // Get the center position of the hover target (using in future enhancements)
-        
-        // We can use this to adjust component position based on another component
-        // This is a simplistic version - in a real app you might want more sophisticated positioning
-        if (component) {
-          moveComponent(item.id, component.x, component.y);
-        }
-      }
-    },
-  });
-
-  // Connect drag and drop refs
-  drag(drop(ref));
 
   // Handle component selection
   const handleSelect = (e: React.MouseEvent) => {
@@ -138,16 +100,12 @@ export const DraggableComponent: React.FC<DraggableComponentProps> = ({ componen
 
   return (
     <div
-      ref={ref}
-      className={`absolute ${isDragging ? 'opacity-50' : 'opacity-100'} ${
-        selectedComponent === component.id ? 'ring-2 ring-primary' : ''
-      }`}
+      className={`absolute ${selectedComponent === component.id ? 'ring-2 ring-primary' : ''}`}
       style={{
         left: `${component.x}px`,
         top: `${component.y}px`,
         width: `${component.width}px`,
         height: `${component.height}px`,
-        cursor: 'move',
       }}
       onClick={handleSelect}
     >
