@@ -36,10 +36,30 @@ const DashboardGrid: React.FC = () => {
       y: widget.y,
       w: widget.w,
       h: widget.h,
-      minW: widget.minW || 2,
-      minH: widget.minH || 2,
+      minW: widget.minW || 3, // Ensure widgets have reasonable minimum width
+      minH: widget.minH || 2, // Ensure widgets have reasonable minimum height
       maxW: widget.maxW,
       maxH: widget.maxH,
+      static: !isEditMode || widget.static,
+    })),
+    md: currentDashboard.widgets.map((widget: WidgetType) => ({
+      i: widget.id,
+      x: widget.x,
+      y: widget.y,
+      w: Math.min(widget.w, 8), // Limit width on medium screens
+      h: widget.h,
+      minW: widget.minW || 3,
+      minH: widget.minH || 2,
+      static: !isEditMode || widget.static,
+    })),
+    sm: currentDashboard.widgets.map((widget: WidgetType) => ({
+      i: widget.id,
+      x: 0, // Force single column layout on small screens
+      y: widget.y * 2, // Spread vertically
+      w: 6, // Full width on small screens
+      h: widget.h,
+      minW: 3,
+      minH: widget.minH || 2,
       static: !isEditMode || widget.static,
     })),
   };
@@ -58,6 +78,9 @@ const DashboardGrid: React.FC = () => {
         isResizable={isEditMode}
         onLayoutChange={handleLayoutChange}
         useCSSTransforms={true}
+        resizeHandles={['se']} // Ensure resize handles are visible
+        compactType="vertical" // Improve vertical compacting
+        preventCollision={false} // Allow widgets to push others when resizing
       >
         {currentDashboard.widgets.map((widget: WidgetType) => (
           <div key={widget.id} className="widget-container">

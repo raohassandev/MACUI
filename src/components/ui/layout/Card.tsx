@@ -63,6 +63,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
           hoverableClass,
           variantClasses[variant],
           interactiveClass,
+          'h-full w-full flex flex-col',  // Ensure cards take full space and use flexbox
           className
         )}
         onClick={onClick}
@@ -150,7 +151,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     return (
       <div
         ref={ref}
-        className={cn('', className)}
+        className={cn('flex-grow', className)} // Make content take available space
         {...props}
       >
         {children}

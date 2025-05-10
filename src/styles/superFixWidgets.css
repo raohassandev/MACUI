@@ -1,0 +1,59 @@
+/* Aggressive fixes for widget resize handles and dimensions */
+.react-resizable-handle {
+  position: absolute !important;
+  width: 20px !important;
+  height: 20px !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  background-color: rgba(59, 130, 246, 0.5) !important;
+  cursor: se-resize !important;
+  z-index: 10 !important;
+  border-radius: 0 0 5px 0 !important;
+  background-image: none !important;
+}
+
+.react-resizable-handle::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 3px !important;
+  bottom: 3px !important;
+  width: 5px !important;
+  height: 5px !important;
+  border-right: 2px solid white !important;
+  border-bottom: 2px solid white !important;
+}
+
+/* Ensure minimum dimensions for widgets */
+.react-grid-item {
+  min-width: 100px !important;
+  min-height: 100px !important;
+}
+
+/* Fix for widget content overflow */
+.widget-content {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* Make widgets more visible during drag */
+.react-grid-item.react-grid-placeholder {
+  background: rgba(0, 120, 255, 0.3) !important;
+  border: 2px dashed rgb(0, 90, 190) !important;
+}
+
+/* Improve card container styling */
+.card-container {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Ensure chart containers properly size */
+.chart-container {
+  flex: 1 !important;
+  min-height: 100px !important;
+  width: 100% !important;
+}
