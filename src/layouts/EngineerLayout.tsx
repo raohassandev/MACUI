@@ -18,9 +18,9 @@ export const EngineerLayout = ({ children }: EngineerLayoutProps) => {
       {/* Sidebar */}
       <EngineerSidebar />
 
-      {/* Main Content - Adding left padding for mobile */}
-      <div className="flex-1 p-4 md:p-6 md:ml-0 overflow-auto transition-all duration-300">
-        <div className="w-full">
+      {/* Main Content - Maximize available space */}
+      <div className="flex-1 p-0 overflow-auto transition-all duration-300">
+        <div className="w-full h-full">
           {children}
         </div>
       </div>

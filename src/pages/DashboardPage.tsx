@@ -109,9 +109,9 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full min-h-screen w-full bg-gray-100 dark:bg-gray-900">
       {/* Dashboard Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm p-4 flex items-center justify-between">
+      <div className="bg-white dark:bg-gray-800 shadow-sm px-4 py-2 flex items-center justify-between sticky top-0 z-10">
         <div>
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {currentDashboard.name}
@@ -122,8 +122,8 @@ const DashboardPage: React.FC = () => {
             </p>
           )}
         </div>
-        
-        <div className="flex items-center space-x-3">
+
+        <div className="flex items-center space-x-2">
           {/* Edit Mode Toggle */}
           <button
             className={`px-3 py-1.5 text-sm rounded-md ${
@@ -135,7 +135,7 @@ const DashboardPage: React.FC = () => {
           >
             {isEditMode ? 'Editing' : 'View Mode'}
           </button>
-          
+
           {/* Add Widget Button (Only visible in edit mode) */}
           {isEditMode && (
             <div className="relative">
@@ -145,7 +145,7 @@ const DashboardPage: React.FC = () => {
               >
                 Add Widget
               </button>
-              
+
               {/* Widget Picker Dropdown */}
               {isWidgetPickerOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700">
@@ -169,7 +169,7 @@ const DashboardPage: React.FC = () => {
               )}
             </div>
           )}
-          
+
           {/* Save Dashboard Button (Only visible in edit mode) */}
           {isEditMode && (
             <button
@@ -181,12 +181,12 @@ const DashboardPage: React.FC = () => {
           )}
         </div>
       </div>
-      
-      {/* Dashboard Content */}
-      <div className="flex-grow overflow-auto">
+
+      {/* Dashboard Content - Takes full available width */}
+      <div className="flex-grow w-full overflow-auto">
         <DashboardGrid />
       </div>
-      
+
       {/* Widget Configuration Modal */}
       <WidgetConfigModal />
     </div>

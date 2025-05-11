@@ -65,15 +65,15 @@ const DashboardGrid: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-grid-container overflow-auto p-4 bg-gray-100 dark:bg-gray-800 flex-grow">
+    <div className="dashboard-grid-container overflow-auto p-2 bg-gray-100 dark:bg-gray-800 flex-grow w-full h-full">
       <ResponsiveGridLayout
-        className="layout"
+        className="layout w-full"
         layouts={layouts}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
         rowHeight={100}
-        margin={[16, 16]}
-        containerPadding={[16, 16]}
+        margin={[12, 12]}
+        containerPadding={[8, 8]}
         isDraggable={isEditMode}
         isResizable={isEditMode}
         onLayoutChange={handleLayoutChange}
@@ -81,6 +81,7 @@ const DashboardGrid: React.FC = () => {
         resizeHandles={['se']} // Ensure resize handles are visible
         compactType="vertical" // Improve vertical compacting
         preventCollision={false} // Allow widgets to push others when resizing
+        width={window.innerWidth} // Force full width
       >
         {currentDashboard.widgets.map((widget: WidgetType) => (
           <div key={widget.id} className="widget-container">
