@@ -1,0 +1,189 @@
+/**
+ * Grafana-style resize behavior
+ * These styles make the resizing behavior match Grafana's fluid and responsive feel
+ */
+
+/* ===== CRITICAL OVERRIDES FOR GRAFANA-STYLE RESIZING ===== */
+
+/* Completely disable react-grid-layout's default transitions during resize */
+.react-grid-layout .react-grid-item {
+  transition: none !important;
+}
+
+/* During resize, we need to absolutely position and disable all transforms */
+.react-grid-item.grafana-resizing {
+  z-index: 100 !important;
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 0 0 2px #3b82f6 !important; /* Blue outline for visual feedback */
+  position: absolute !important; 
+  will-change: width, height !important;
+}
+
+/* Make resize handles more visible */
+.react-resizable-handle {
+  width: 12px !important;
+  height: 12px !important;
+  background-color: rgba(59, 130, 246, 0.8) !important;
+  border: 1px solid white !important;
+  visibility: visible !important;
+  opacity: 0.8 !important;
+  z-index: 110 !important;
+  display: block !important;
+}
+
+/* This forces elements to stay as specified width/height */
+.react-grid-item.grafana-resizing {
+  width: var(--actual-width) !important;
+  height: var(--actual-height) !important;
+}
+
+/* Ensure widget content is sized properly */
+.widget-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Make widget immediately follow cursor when resizing */
+.react-grid-layout .react-grid-item.grafana-resizing.cssTransforms {
+  transform: none !important;
+  -ms-transform: none !important;
+  -webkit-transform: none !important;
+  left: var(--x-pos) !important;
+  top: var(--y-pos) !important;
+}
+
+/* Ensure proper widget positioning when resizing */
+.react-grid-layout .react-grid-item.cssTransforms.grafana-resizing {
+  position: absolute !important;
+  transition: none !important;
+}
+
+/* Override the transform styles completely during resize */
+.react-grid-layout .react-grid-item.resizing,
+.react-grid-layout .react-grid-item.grafana-resizing {
+  transition: none !important;
+  z-index: 100 !important;
+}
+
+/* Ensure resize handles stay visible during resize */
+.react-grid-layout .react-grid-item .react-resizable-handle {
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* ===== SPECIFIC RESIZE HANDLE STYLING ===== */
+
+/* South-east resize handle (bottom-right corner) */
+.react-resizable-handle-se {
+  bottom: 0 !important;
+  right: 0 !important;
+  cursor: se-resize !important;
+  border-radius: 0 0 4px 0 !important;
+}
+
+/* East resize handle (right edge) */
+.react-resizable-handle-e {
+  right: 0 !important;
+  top: 50% !important;
+  margin-top: -6px !important;
+  cursor: e-resize !important;
+  width: 8px !important;
+  height: 20px !important;
+}
+
+/* South resize handle (bottom edge) */
+.react-resizable-handle-s {
+  bottom: 0 !important;
+  left: 50% !important;
+  margin-left: -10px !important;
+  cursor: s-resize !important;
+  width: 20px !important;
+  height: 8px !important;
+}
+
+/* West resize handle (left edge) */
+.react-resizable-handle-w {
+  left: 0 !important;
+  top: 50% !important;
+  margin-top: -6px !important;
+  cursor: w-resize !important;
+  width: 8px !important;
+  height: 20px !important;
+}
+
+/* North-east resize handle (top-right corner) */
+.react-resizable-handle-ne {
+  top: 0 !important;
+  right: 0 !important;
+  cursor: ne-resize !important;
+  border-radius: 0 4px 0 0 !important;
+}
+
+/* North-west resize handle (top-left corner) */
+.react-resizable-handle-nw {
+  top: 0 !important;
+  left: 0 !important;
+  cursor: nw-resize !important;
+  border-radius: 4px 0 0 0 !important;
+}
+
+/* South-west resize handle (bottom-left corner) */
+.react-resizable-handle-sw {
+  bottom: 0 !important;
+  left: 0 !important;
+  cursor: sw-resize !important;
+  border-radius: 0 0 0 4px !important;
+}
+
+/* North resize handle (top edge) */
+.react-resizable-handle-n {
+  top: 0 !important;
+  left: 50% !important;
+  margin-left: -10px !important;
+  cursor: n-resize !important;
+  width: 20px !important;
+  height: 8px !important;
+}
+
+/* Visual indicators for each resize handle */
+.react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
+.react-resizable-handle-e::after,
+.react-resizable-handle-w::after {
+  width: 2px;
+  height: 10px;
+}
+
+.react-resizable-handle-n::after,
+.react-resizable-handle-s::after {
+  width: 10px;
+  height: 2px;
+}
+
+/* ===== DEBUG HELPERS ===== */
+
+/* Add this class to see grid boundaries for debugging */
+.debug-grid .react-grid-item {
+  outline: 1px dashed red;
+}
+
+/* Add this class to see resize handles for debugging */
+.debug-handles .react-resizable-handle {
+  opacity: 1 !important;
+  background-color: red !important;
+}
+
+/* Log resize events to console */
+.grafana-resizing::before {
+  content: attr(style);
+  display: none;
+}

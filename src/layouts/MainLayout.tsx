@@ -19,7 +19,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <LayoutSwitcher />
       <LayoutComponent>
         {children}
       </LayoutComponent>

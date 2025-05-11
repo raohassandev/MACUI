@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../ui/navigation/Button';
+import { useLayout, LayoutType } from '../../contexts/LayoutContext';
 
 // Icons
 const DashboardIcon = () => (
@@ -95,6 +96,7 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { layout, setLayout } = useLayout();
   
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -120,6 +122,11 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
       onCollapseChange(newCollapsedState);
     }
   };
+
+  // Handle layout change for Engineer/Client mode
+  const handleLayoutChange = (newLayout: LayoutType) => {
+    setLayout(newLayout);
+  };
   
   return (
     <div className="relative">
@@ -130,21 +137,7 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
         </Button>
       </div>
       
-      {/* Collapse toggle button (desktop only, visible when sidebar is open) */}
-      <div className={`hidden md:block fixed ${isCollapsed ? 'left-[72px]' : 'left-[240px]'} top-4 z-50 transition-all duration-300`}>
-        <Button variant="outline" size="icon" onClick={toggleCollapse} className="bg-background shadow-md">
-          {isCollapsed ? (
-            // Expand icon (right arrow)
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" 
-                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          ) : (
-            // Collapse icon (left arrow)
-            <CollapseIcon />
-          )}
-        </Button>
-      </div>
+      {/* Collapse toggle button has been moved inside the sidebar */}
       
       {/* Sidebar */}
       <div
@@ -152,11 +145,27 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
           fixed top-0 left-0 h-full z-20
           transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          ${isCollapsed ? 'md:w-16' : 'md:w-64'}
+          ${isCollapsed ? 'md:w-16 sidebar-collapsed' : 'md:w-64'}
           bg-background border-r border-border shadow-md
-          p-4
+          p-4 relative
         `}
       >
+        {/* Collapse toggle button - now inside the sidebar */}
+        <div className={`absolute ${isCollapsed ? 'right-2' : 'right-4'} top-4 z-50`}>
+          <Button variant="outline" size="icon" onClick={toggleCollapse} className="bg-background shadow-sm">
+            {isCollapsed ? (
+              // Expand icon (right arrow)
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            ) : (
+              // Collapse icon (left arrow)
+              <CollapseIcon />
+            )}
+          </Button>
+        </div>
+
         <div className={`mt-14 space-y-1 mb-8 ${isCollapsed ? 'px-0' : 'px-2'}`}>
           <NavItem
             to="/dashboards"
@@ -166,7 +175,7 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
             onClick={() => handleNavigate("/dashboards")}
             collapsed={isCollapsed}
           />
-          
+
           <NavItem
             to="/theme-settings"
             icon={<ThemeIcon />}
@@ -175,7 +184,7 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
             onClick={() => handleNavigate("/theme-settings")}
             collapsed={isCollapsed}
           />
-          
+
           <NavItem
             to="/components"
             icon={<ComponentsIcon />}
@@ -185,12 +194,37 @@ export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChan
             collapsed={isCollapsed}
           />
         </div>
-        
+
+        {/* Layout switcher at the bottom */}
+        <div className={`absolute bottom-4 ${isCollapsed ? 'left-1 right-1' : 'left-4 right-4'} ${isCollapsed ? 'flex flex-col space-y-2' : 'grid grid-cols-2 gap-2'}`}>
+          <Button
+            size="sm"
+            variant={layout === 'engineer' ? 'default' : 'outline'}
+            onClick={() => handleLayoutChange('engineer')}
+            className={`layout-switcher-btn ${layout === 'engineer' ? 'active' : 'inactive'}`}
+            title="Engineer Mode"
+          >
+            {isCollapsed ? 'E' : 'Engineer'}
+          </Button>
+          <Button
+            size="sm"
+            variant={layout === 'client' ? 'default' : 'outline'}
+            onClick={() => handleLayoutChange('client')}
+            className={`layout-switcher-btn ${layout === 'client' ? 'active' : 'inactive'}`}
+            title="Client Mode"
+          >
+            {isCollapsed ? 'C' : 'Client'}
+          </Button>
+        </div>
+
+        {/* Add bottom padding to accommodate the layout switcher */}
+        <div className="pb-24"></div>
+
         {/* Close button (mobile only) */}
         <div className="md:hidden mt-4">
-          <Button 
-            variant="outline" 
-            className="w-full" 
+          <Button
+            variant="outline"
+            className="w-full"
             onClick={toggleSidebar}
           >
             Close Menu

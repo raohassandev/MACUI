@@ -18,52 +18,10 @@ const DashboardGrid: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentDashboard = useAppSelector(selectCurrentDashboard);
   const isEditMode = useAppSelector(selectDashboardEditMode);
-  // Handle responsive grid when sidebar changes
-  useEffect(() => {
-    const handleResize = () => {
-      // Force grid layout to recalculate dimensions
-      window.dispatchEvent(new Event('resize'));
-    };
-
-    // Listen for sidebar state changes
-    const storageListener = () => {
-      // Wait for transition to complete
-      setTimeout(handleResize, 310);
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('storage', storageListener);
-
-    // Apply direct DOM modifications to override react-grid-layout's behavior for resizing
-    const fixResizeHandles = () => {
-      // Find all resize handles and ensure they're visible and working
-      const resizeHandles = document.querySelectorAll(
-        '.react-resizable-handle'
-      );
-      resizeHandles.forEach((handle: any) => {
-        handle.style.display = 'block';
-        handle.style.opacity = '0.8';
-        handle.style.zIndex = '10';
-      });
-    };
-
-    // Run after a slight delay to ensure components are mounted
-    setTimeout(fixResizeHandles, 500);
-    // Also run after resize to catch any new elements
-    window.addEventListener('resize', fixResizeHandles);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('storage', storageListener);
-      window.removeEventListener('resize', fixResizeHandles);
-    };
-  }, []);
-
-  // Handle layout changes from react-grid-layout
-  // Use memoization to prevent unnecessary dispatches that can cause infinite loops
+  
+  // Handle layout changes
   const handleLayoutChange = React.useCallback(
     (layout: any) => {
-      // Only dispatch if we're in edit mode and layout is actually different
       if (
         isEditMode &&
         JSON.stringify(currentDashboard?.layout) !== JSON.stringify(layout)
@@ -72,83 +30,6 @@ const DashboardGrid: React.FC = () => {
       }
     },
     [dispatch, isEditMode, currentDashboard?.layout]
-  );
-
-  // Add handlers for resize events
-  const handleResizeStart = React.useCallback(
-    (
-      _layout: any,
-      oldItem: any,
-      newItem: any,
-      _placeholder: any,
-      _e: any,
-      _element: any
-    ) => {
-      // Set a data attribute on the element being resized
-      const gridItems = document.querySelectorAll('.react-grid-item');
-      gridItems.forEach((item) => {
-        const itemId = item.getAttribute('data-grid-key');
-        if (itemId === newItem.i) {
-          item.setAttribute('data-resizing', 'true');
-        }
-      });
-    },
-    []
-  );
-
-  const handleResize = React.useCallback(
-    (
-      _layout: any,
-      oldItem: any,
-      newItem: any,
-      _placeholder: any,
-      _e: any,
-      _element: HTMLElement
-    ) => {
-      // Directly set the width for the resize operation
-      if (_element) {
-        const item = _element.closest('.react-grid-item') as HTMLElement;
-        if (item) {
-          // We'll use a custom CSS property to store the intended width
-          item.style.setProperty(
-            '--actual-width',
-            `${(newItem.w * 100) / 12}%`
-          );
-          item.style.setProperty('--cols', String(newItem.w));
-
-          // Force width during resize to avoid transform issues
-          if (Math.abs(newItem.w - oldItem.w) > 0) {
-            // Direct DOM manipulation for width
-            const parentWidth = item.parentElement?.clientWidth || 1200;
-            const colWidth = parentWidth / 12;
-            // Try to set the width directly
-            item.style.width = `${newItem.w * colWidth}px`;
-          }
-        }
-      }
-    },
-    []
-  );
-
-  const handleResizeStop = React.useCallback(
-    (
-      _layout: any,
-      oldItem: any,
-      newItem: any,
-      _placeholder: any,
-      _e: any,
-      _element: any
-    ) => {
-      // Remove the resizing attribute
-      const gridItems = document.querySelectorAll('.react-grid-item');
-      gridItems.forEach((item) => {
-        item.removeAttribute('data-resizing');
-      });
-
-      // Force an update to all widgets
-      setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
-    },
-    []
   );
 
   if (!currentDashboard) {
@@ -169,10 +50,10 @@ const DashboardGrid: React.FC = () => {
       y: widget.y,
       w: widget.w,
       h: widget.h,
-      minW: widget.minW || 1, // Minimal width constraint to allow maximum flexibility
-      minH: widget.minH || 2, // Ensure widgets have reasonable minimum height
-      maxW: widget.maxW || 12, // Default max width is full container width
-      maxH: widget.maxH || 12, // Default max height for reasonable limits
+      minW: widget.minW || 1,
+      minH: widget.minH || 2,
+      maxW: widget.maxW || 12,
+      maxH: widget.maxH || 12,
       static: !isEditMode || widget.static,
       isDraggable: isEditMode && widget.isDraggable !== false,
       isResizable: isEditMode && widget.isResizable !== false,
@@ -181,25 +62,25 @@ const DashboardGrid: React.FC = () => {
       i: widget.id,
       x: widget.x,
       y: widget.y,
-      w: Math.min(widget.w, 10), // Allow slightly more width on medium screens
+      w: Math.min(widget.w, 10),
       h: widget.h,
       minW: widget.minW || 1,
       minH: widget.minH || 2,
-      maxW: widget.maxW || 10, // Default max width for medium screens
-      maxH: widget.maxH || 12, // Default max height for reasonable limits
+      maxW: widget.maxW || 10,
+      maxH: widget.maxH || 12,
       static: !isEditMode || widget.static,
       isDraggable: isEditMode && widget.isDraggable !== false,
       isResizable: isEditMode && widget.isResizable !== false,
     })),
     sm: currentDashboard.widgets.map((widget: WidgetType) => ({
       i: widget.id,
-      x: 0, // Force single column layout on small screens
-      y: widget.y * 2, // Spread vertically
-      w: 6, // Full width on small screens
+      x: 0,
+      y: widget.y * 2,
+      w: 6,
       h: widget.h,
       minW: 1,
       minH: widget.minH || 2,
-      maxW: 6, // Limit to full width on small screens
+      maxW: 6,
       maxH: widget.maxH || 12,
       static: !isEditMode || widget.static,
       isDraggable: isEditMode && widget.isDraggable !== false,
@@ -220,19 +101,15 @@ const DashboardGrid: React.FC = () => {
           containerPadding={[4, 4]}
           isDraggable={isEditMode}
           isResizable={isEditMode}
-          isBounded={false} // Allow widgets to be moved outside bounds for more flexibility
-          allowOverlap={false} // Don't allow widgets to overlap
+          isBounded={false}
+          allowOverlap={false}
           onLayoutChange={handleLayoutChange}
-          onResizeStart={handleResizeStart}
-          onResize={handleResize}
-          onResizeStop={handleResizeStop}
-          useCSSTransforms={true}
-          resizeHandles={['se', 'e', 's', 'w', 'ne', 'sw'] as any} // Enable all resize handles including left edge
-          // Setting to null disables compacting which can cause issues with resizing
-          // Using 'vertical' ensures reliable widget resizing behavior
-          compactType='vertical'
-          preventCollision={false} // Allow widgets to push others when resizing
-          autoSize={true} // Allow content to determine size
+          resizeHandles={['se', 'e', 's', 'w', 'ne', 'sw'] as any}
+          compactType={null} // This is the key setting that fixes resizing
+          preventCollision={false}
+          autoSize={true}
+          transform={(a,b) => {return { x: a, y: b }}} // Prevent transforms during resize
+          useCSSTransforms={false} // Disable CSS transforms
         >
           {currentDashboard.widgets.map((widget: WidgetType) => (
             <div key={widget.id} className='widget-container'>

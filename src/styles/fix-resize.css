@@ -1,0 +1,24 @@
+/* Minimal resize handle styling only */
+.react-resizable-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0, 120, 255, 0.7);
+  border: 1px solid white;
+  z-index: 10;
+  display: block;
+  opacity: 0.6;
+}
+
+/* Position handles properly */
+.react-resizable-handle-se { bottom: 0; right: 0; cursor: se-resize; }
+.react-resizable-handle-s { bottom: 0; left: 50%; margin-left: -5px; cursor: s-resize; }
+.react-resizable-handle-e { top: 50%; right: 0; margin-top: -5px; cursor: e-resize; }
+.react-resizable-handle-w { top: 50%; left: 0; margin-top: -5px; cursor: w-resize; }
+.react-resizable-handle-ne { top: 0; right: 0; cursor: ne-resize; }
+.react-resizable-handle-sw { bottom: 0; left: 0; cursor: sw-resize; }
+
+/* Make resize handles stand out more on hover */
+.react-resizable-handle:hover {
+  opacity: 1;
+}

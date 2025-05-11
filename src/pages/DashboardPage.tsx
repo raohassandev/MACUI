@@ -111,7 +111,7 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="flex flex-col h-full min-h-screen w-full max-w-full bg-white dark:bg-gray-900">
       {/* Dashboard Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm px-4 py-2 flex items-center justify-between sticky top-0 w-full dashboard-header">
+      <div className="bg-white dark:bg-gray-800 shadow-sm px-4 py-2 flex items-center justify-between sticky top-0 w-full dashboard-header z-50">
         <div>
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {currentDashboard.name}
@@ -123,7 +123,7 @@ const DashboardPage: React.FC = () => {
           )}
         </div>
 
-        <div className="flex items-center space-x-2 flex-shrink-0 pr-32 mr-4">
+        <div className="flex items-center space-x-2 flex-shrink-0 pr-32 mr-4 relative z-50">
           {/* Edit Mode Toggle */}
           <button
             className={`px-3 py-1.5 text-sm rounded-md whitespace-nowrap font-medium edit-mode-toggle ${
@@ -138,7 +138,7 @@ const DashboardPage: React.FC = () => {
 
           {/* Add Widget Button (Only visible in edit mode) */}
           {isEditMode && (
-            <div className="relative">
+            <div className="relative" style={{ zIndex: 9999 }}>
               <button
                 className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 whitespace-nowrap font-medium shadow-sm"
                 onClick={() => setIsWidgetPickerOpen(!isWidgetPickerOpen)}
@@ -148,7 +148,7 @@ const DashboardPage: React.FC = () => {
 
               {/* Widget Picker Dropdown */}
               {isWidgetPickerOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 widget-dropdown">
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 widget-dropdown" style={{ zIndex: 9999 }}>
                   <div className="p-2 border-b border-gray-200 dark:border-gray-700">
                     <h3 className="font-medium text-gray-700 dark:text-gray-300">
                       Select Widget Type

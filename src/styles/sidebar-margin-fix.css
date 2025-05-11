@@ -1,0 +1,19 @@
+/* Fix for left margin between sidebar and dashboard */
+
+/* Target the main content area specifically */
+.main-content-area {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Ensure the sidebar-expanded main content aligns with sidebar */
+.sidebar-expanded .main-content-area {
+  margin-left: 256px !important; /* Exact width of expanded sidebar */
+  width: calc(100% - 256px) !important;
+}
+
+/* Ensure the sidebar-collapsed main content aligns with sidebar */
+.sidebar-collapsed .main-content-area {
+  margin-left: 64px !important; /* Exact width of collapsed sidebar */
+  width: calc(100% - 64px) !important;
+}

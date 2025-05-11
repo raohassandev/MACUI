@@ -47,28 +47,6 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
 
   const isSelected = selectedWidgetId === widget.id;
 
-  // Add data for proper resizing - removed extra debug info
-  const dimensionsData = {
-    id: widget.id,
-    w: widget.w,
-    h: widget.h
-  };
-
-  // Update widget dimensions for proper resizing
-  React.useEffect(() => {
-    // Force update CSS custom properties to match current dimensions
-    const widgetElements = document.querySelectorAll(`.react-grid-item`);
-    widgetElements.forEach(el => {
-      const itemId = el.getAttribute('data-grid-key');
-      if (itemId === widget.id) {
-        // Set actual width and height as CSS variables
-        (el as HTMLElement).style.setProperty('--actual-width', `${el.clientWidth}px`);
-        (el as HTMLElement).style.setProperty('--actual-height', `${el.clientHeight}px`);
-        (el as HTMLElement).style.setProperty('--cols', String(widget.w));
-      }
-    });
-  }, [widget.id, widget.w, widget.h]);
-
   return (
     <div
       className={`widget-wrapper h-full w-full flex flex-col shadow-md rounded-lg overflow-hidden transition-all
@@ -76,12 +54,7 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
         ${isSelected && isEditMode ? 'ring-2 ring-blue-500' : ''}
         bg-white dark:bg-gray-700 relative`}
       onClick={handleWidgetClick}
-      style={{
-        "--cols": widget.w,
-        "--margin": "6px",
-        "--resizable": isEditMode ? "all" : "none"
-      } as React.CSSProperties}
-      data-debug={JSON.stringify(dimensionsData)}
+      data-widget-id={widget.id}
     >
       <div className="widget-header px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-medium bg-gray-50 dark:bg-gray-800 flex justify-between items-center">
         <h3 className="text-gray-800 dark:text-gray-200 truncate">{widget.title}</h3>
@@ -94,7 +67,6 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
       <div className="widget-body flex-grow p-3 overflow-auto min-h-[100px]">
         {renderWidget()}
       </div>
-      {/* Remove custom resize handle to use the ones from react-grid-layout */}
     </div>
   );
 };

@@ -1,0 +1,47 @@
+/* Fix for widget dropdown z-index issues */
+
+/* Increase z-index of widget dropdown to ensure it appears above all other elements */
+.widget-dropdown {
+  z-index: 9999 !important; /* Very high z-index to ensure it's on top */
+  position: absolute !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Ensure dropdown is positioned correctly */
+.relative {
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+/* Critical fix for dropdown positioning */
+.dashboard-header {
+  z-index: 1000 !important;
+  position: relative !important;
+}
+
+/* Make dropdown buttons more interactive */
+.widget-dropdown button {
+  transition: all 0.2s ease !important;
+}
+
+.widget-dropdown button:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  padding-left: 12px !important; /* Slight indent on hover */
+}
+
+/* Improve dropdown visibility */
+.widget-dropdown {
+  border-width: 1px !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+/* Ensure the widgets stay below the dropdown */
+.react-grid-layout {
+  z-index: 1 !important;
+}
+
+/* Reset any transform issues */
+.react-grid-item {
+  z-index: 1 !important;
+}

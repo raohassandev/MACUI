@@ -1,0 +1,45 @@
+/* Styles for Engineer/Client buttons in the sidebar */
+
+/* Layout switcher buttons in normal mode */
+.layout-switcher-btn {
+  transition: all 0.2s ease;
+}
+
+/* Layout switcher in collapsed sidebar */
+.sidebar-collapsed .layout-switcher-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  min-width: 0;
+}
+
+/* Improve active button visibility */
+.layout-switcher-btn.active {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+  font-weight: 500;
+}
+
+/* Hover effect */
+.layout-switcher-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Collapse button styling */
+.sidebar-collapsed .button-collapse-toggle {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+
+/* Ensure collapse button stays inside sidebar */
+.sidebar-container {
+  position: relative;
+  overflow: visible;
+}
+
+/* Make the toggle button more visible when hovered */
+button[variant="outline"]:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}

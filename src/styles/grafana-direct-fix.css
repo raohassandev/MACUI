@@ -1,0 +1,92 @@
+/**
+ * Direct DOM manipulation fixes for Grafana-style resizing
+ * These are extremely aggressive CSS overrides to ensure widgets resize smoothly
+ */
+
+/* CRITICAL: Completely disable all transitions during resize */
+.react-grid-layout,
+.react-grid-layout *,
+.react-grid-item,
+.react-grid-item * {
+  transition: none !important;
+}
+
+/* CRITICAL: Force widgets to use their explicit dimensions */
+.react-grid-item {
+  width: var(--actual-width, auto) !important;
+  height: var(--actual-height, auto) !important;
+  position: absolute !important;
+  box-sizing: border-box !important;
+}
+
+/* Make react-resizable-handle much more visible for easier grabbing */
+.react-resizable-handle {
+  background-color: rgba(59, 130, 246, 0.9) !important;
+  border: 1px solid white !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* This is the most important fix - completely override transform */
+.react-grid-item.grafana-resizing {
+  transform: none !important;
+  -webkit-transform: none !important;
+  -ms-transform: none !important;
+  left: var(--x-pos, 0) !important;
+  top: var(--y-pos, 0) !important;
+}
+
+/* Position handles at edge of widget */
+.react-resizable-handle-e { right: -4px !important; }
+.react-resizable-handle-w { left: -4px !important; }
+.react-resizable-handle-n { top: -4px !important; }
+.react-resizable-handle-s { bottom: -4px !important; }
+
+/* Make corner handles extend outside widget for easier grabbing */
+.react-resizable-handle-ne { top: -4px !important; right: -4px !important; }
+.react-resizable-handle-nw { top: -4px !important; left: -4px !important; }
+.react-resizable-handle-se { bottom: -4px !important; right: -4px !important; }
+.react-resizable-handle-sw { bottom: -4px !important; left: -4px !important; }
+
+/* Add debug outlines to all widgets when resizing */
+.react-grid-layout.debug-layout .react-grid-item {
+  outline: 1px solid blue;
+}
+
+/* Add debug outline to resizing widget */
+.react-grid-item.grafana-resizing {
+  outline: 2px solid #3b82f6 !important;
+  z-index: 9999 !important;
+}
+
+/* Ensure placeholder shows correct size */
+.react-grid-placeholder {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border: 2px dashed #3b82f6 !important;
+  border-radius: 5px !important;
+  opacity: 0.7 !important;
+  transition: none !important;
+}
+
+/* Prevent content overflow during resize */
+.widget-wrapper {
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Show current dimensions during resize (for debugging) */
+.react-grid-item.grafana-resizing::after {
+  content: attr(data-current-width) "x" attr(data-current-height);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}

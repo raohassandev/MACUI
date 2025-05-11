@@ -35,7 +35,7 @@ export const EngineerLayout = ({ children }: EngineerLayoutProps) => {
 
       {/* Main Content with adjusted left margin for sidebar */}
       <div
-        className={`flex-1 ml-0 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'} p-0 overflow-hidden transition-all duration-300 w-full`}
+        className={`flex-1 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'} p-0 overflow-hidden transition-all duration-300 w-full`}
         style={{ width: `calc(100vw - ${isSidebarCollapsed ? 64 : 256}px)` }}
       >
         <div className="w-full h-full">

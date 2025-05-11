@@ -1,6 +1,6 @@
 /**
- * Direct CSS overrides to fix horizontal resizing issues
- * These are critical styles for proper widget resizing
+ * Direct CSS overrides for pixel-level precise widget resizing
+ * These are critical styles for exact widget positioning and resizing
  */
 
 /* Ensure grid items respect their width */
@@ -74,4 +74,32 @@
 .dashboard-grid-container .react-grid-layout .react-grid-item.resizing {
   width: var(--actual-width) !important;
   height: var(--actual-height) !important;
+  /* Use fractional pixels for exact sizing */
+  width: calc(var(--exact-width-px, 0) * 1px) !important;
+  height: calc(var(--exact-height-px, 0) * 1px) !important;
+}
+
+/* Enable precise width calculation for placeholder during resize */
+.react-grid-item.react-grid-placeholder {
+  width: calc(100% / 24 * var(--cols, 1) - var(--margin, 10px)) !important;
+  transition: width 0s, left 0s, top 0s !important; /* Disable transitions for more precise resizing */
+}
+
+/* Ensure grid items maintain exact sizing */
+.react-grid-layout .react-grid-item {
+  box-sizing: border-box !important;
+  /* Disable rounding to enable precise sizing */
+  transform-origin: top left !important;
+  /* Allow fractional widths */
+  min-width: auto !important;
+}
+
+/* Improve drag handle visibility for precise positioning */
+.react-grid-item .react-resizable-handle {
+  /* Make handles slightly larger for easier grabbing */
+  width: 12px !important;
+  height: 12px !important;
+  background-color: rgba(59, 130, 246, 0.7) !important;
+  /* Add borders to help with visibility */
+  border: 1px solid white !important;
 }

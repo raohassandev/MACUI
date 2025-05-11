@@ -1,0 +1,47 @@
+/* Fix for left margin issue between sidebar and dashboard */
+
+/* Define sidebar width variables */
+:root {
+  --sidebar-width-expanded: 256px;
+  --sidebar-width-collapsed: 64px;
+}
+
+/* Completely remove any margins from the dashboard grid container */
+.dashboard-grid-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Make the dashboard content take exactly the right width */
+.dashboard-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Fix the layout container width and margins */
+.react-grid-layout {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Fix specific to the engineer layout */
+.sidebar-expanded .dashboard-content-container {
+  margin-left: var(--sidebar-width-expanded) !important;
+  width: calc(100% - var(--sidebar-width-expanded)) !important;
+}
+
+.sidebar-collapsed .dashboard-content-container {
+  margin-left: var(--sidebar-width-collapsed) !important;
+  width: calc(100% - var(--sidebar-width-collapsed)) !important;
+}
+
+/* Remove all auto margins that might be interfering */
+.m-auto, .mx-auto, .ml-auto {
+  margin-left: 0 !important;
+}

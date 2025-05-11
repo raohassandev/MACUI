@@ -1,0 +1,52 @@
+/* Fix for Engineer/Client button positioning */
+.engineer-mode-button,
+.client-mode-button,
+.view-mode-button {
+  position: fixed !important;
+  top: 20px !important;
+  z-index: 9999 !important;
+  /* Nice styling */
+  background-color: #3b82f6 !important;
+  color: white !important;
+  border-radius: 4px !important;
+  padding: 8px 16px !important;
+  font-weight: 500 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.engineer-mode-button {
+  right: 200px !important;
+}
+
+.client-mode-button {
+  right: 100px !important;
+}
+
+.view-mode-button {
+  right: 300px !important;
+}
+
+/* Make sure buttons show above everything */
+.engineer-mode-button:hover,
+.client-mode-button:hover,
+.view-mode-button:hover {
+  background-color: #2563eb !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .15) !important;
+}
+
+/* Fix for dashboard header elements */
+.dashboard-header button,
+.dashboard-header .flex.items-center.space-x-2 {
+  z-index: 9999 !important;
+  position: relative !important;
+}
+
+/* Add space in the header for buttons */
+.dashboard-header {
+  padding-right: 400px !important;
+}

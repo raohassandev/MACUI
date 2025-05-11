@@ -1,0 +1,10 @@
+/* Fix for the left margin between sidebar and dashboard content */
+.sidebar-collapsed + div {
+  margin-left: 64px !important;
+  padding-left: 0 !important;
+}
+
+.sidebar-expanded + div {
+  margin-left: 256px !important;
+  padding-left: 0 !important;
+}
