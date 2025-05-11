@@ -101,7 +101,7 @@ export const EngineerSidebar: React.FC = () => {
       </div>
       
       {/* Sidebar */}
-      <div 
+      <div
         className={`
           fixed top-0 left-0 h-full z-10
           transform transition-transform duration-300 ease-in-out
@@ -111,33 +111,29 @@ export const EngineerSidebar: React.FC = () => {
           w-64 p-4
         `}
       >
-        <Card className="mb-6 flex items-center px-4 py-3">
-          <span className="font-semibold text-xl">Engineer Console</span>
-        </Card>
-        
-        <div className="space-y-1 mb-8">
-          <NavItem 
-            to="/dashboards" 
-            icon={<DashboardIcon />} 
-            label="Dashboards" 
-            isActive={isActive("/dashboard")} 
-            onClick={() => handleNavigate("/dashboards")} 
+        <div className="mt-4 space-y-1 mb-8">
+          <NavItem
+            to="/dashboards"
+            icon={<DashboardIcon />}
+            label="Dashboards"
+            isActive={isActive("/dashboard")}
+            onClick={() => handleNavigate("/dashboards")}
           />
-          
-          <NavItem 
-            to="/theme-settings" 
-            icon={<ThemeIcon />} 
-            label="Theme Settings" 
-            isActive={isActive("/theme-settings")} 
-            onClick={() => handleNavigate("/theme-settings")} 
+
+          <NavItem
+            to="/theme-settings"
+            icon={<ThemeIcon />}
+            label="Theme Settings"
+            isActive={isActive("/theme-settings")}
+            onClick={() => handleNavigate("/theme-settings")}
           />
-          
-          <NavItem 
-            to="/components" 
-            icon={<ComponentsIcon />} 
-            label="Component Demo" 
-            isActive={isActive("/components")} 
-            onClick={() => handleNavigate("/components")} 
+
+          <NavItem
+            to="/components"
+            icon={<ComponentsIcon />}
+            label="Component Demo"
+            isActive={isActive("/components")}
+            onClick={() => handleNavigate("/components")}
           />
         </div>
         
