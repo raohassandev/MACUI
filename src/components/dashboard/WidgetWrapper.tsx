@@ -47,20 +47,15 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
 
   const isSelected = selectedWidgetId === widget.id;
 
-  // Add data with JSON.stringify for debug info
-  const debugInfo = {
+  // Add data for proper resizing - removed extra debug info
+  const dimensionsData = {
     id: widget.id,
-    type: widget.type,
     w: widget.w,
-    h: widget.h,
-    isEditMode,
-    isSelected
+    h: widget.h
   };
 
-  // Log this to console
+  // Update widget dimensions for proper resizing
   React.useEffect(() => {
-    console.log("Widget wrapper props:", debugInfo);
-
     // Force update CSS custom properties to match current dimensions
     const widgetElements = document.querySelectorAll(`.react-grid-item`);
     widgetElements.forEach(el => {
@@ -70,14 +65,9 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
         (el as HTMLElement).style.setProperty('--actual-width', `${el.clientWidth}px`);
         (el as HTMLElement).style.setProperty('--actual-height', `${el.clientHeight}px`);
         (el as HTMLElement).style.setProperty('--cols', String(widget.w));
-        console.log(`Set actual dimensions for ${widget.id}:`, {
-          width: `${el.clientWidth}px`,
-          height: `${el.clientHeight}px`,
-          cols: widget.w
-        });
       }
     });
-  }, [JSON.stringify(debugInfo)]);
+  }, [widget.id, widget.w, widget.h]);
 
   return (
     <div
@@ -91,7 +81,7 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
         "--margin": "6px",
         "--resizable": isEditMode ? "all" : "none"
       } as React.CSSProperties}
-      data-debug={JSON.stringify(debugInfo)}
+      data-debug={JSON.stringify(dimensionsData)}
     >
       <div className="widget-header px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-medium bg-gray-50 dark:bg-gray-800 flex justify-between items-center">
         <h3 className="text-gray-800 dark:text-gray-200 truncate">{widget.title}</h3>

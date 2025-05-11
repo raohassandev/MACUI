@@ -1,7 +1,6 @@
 /**
  * Direct CSS overrides to fix horizontal resizing issues
- * This file contains aggressive overrides that directly target the React Grid Layout
- * styles to ensure horizontal resizing works correctly.
+ * These are critical styles for proper widget resizing
  */
 
 /* Ensure grid items respect their width */
@@ -11,7 +10,7 @@
   transition-property: transform, width, height, left, top !important;
 }
 
-/* Make sure transform is not interfering with dimensions */
+/* Make sure transform is not interfering with dimensions during resize */
 .react-grid-item.resizing {
   z-index: 1;
   will-change: width, height !important;
@@ -19,15 +18,7 @@
   transition-duration: 0s !important;
 }
 
-/* Force grid items to respect their width during resizing */
-.react-grid-item.react-grid-placeholder {
-  background: rgba(0, 0, 0, 0.1) !important;
-  transition-duration: 100ms !important;
-  z-index: 0 !important;
-  user-select: none !important;
-}
-
-/* Additional fix for the layout */
+/* Ensure layout width is properly calculated */
 .react-grid-layout {
   position: relative !important;
   transition: height 200ms ease !important;
@@ -43,32 +34,21 @@
   top: 0 !important;
 }
 
-/* Fix for the widget dimensions display */
+/* Fix widget dimensions */
 .widget-wrapper {
   width: 100% !important;
   height: 100% !important;
   transition: none !important;
 }
 
-/* Make sure resize handles are clearly visible */
-.react-resizable-handle {
-  background: rgba(59, 130, 246, 0.5) !important;
-  border: 1px solid white !important;
-}
-
-/* Directly address width calculation issues */
-.react-grid-item.react-grid-placeholder {
-  width: calc(100% / 12 * var(--cols, 1) - var(--margin, 10px)) !important;
-}
-
-/* Force handles to be visible */
+/* Make sure resize handles are visible */
 .react-grid-item .react-resizable-handle {
   display: block !important;
   visibility: visible !important;
   opacity: 0.8 !important;
 }
 
-/* Disable transforms during resize for more accurate width calculation */
+/* CRITICAL: Disable transforms during resize - this is what enables horizontal resizing */
 .react-grid-item.resizing {
   transform: none !important;
   -webkit-transform: none !important;
