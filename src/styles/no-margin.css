@@ -1,0 +1,4 @@
+/* Remove margin between sidebar and content */
+.md\:ml-16, .md\:ml-64 {
+  margin-left: 0 !important;
+}
