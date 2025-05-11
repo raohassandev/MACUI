@@ -109,9 +109,9 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-full min-h-screen w-full bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col h-full min-h-screen w-full max-w-full bg-white dark:bg-gray-900">
       {/* Dashboard Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm px-4 py-2 flex items-center justify-between sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 shadow-sm px-4 py-2 flex items-center justify-between sticky top-0 w-full dashboard-header">
         <div>
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             {currentDashboard.name}
@@ -123,13 +123,13 @@ const DashboardPage: React.FC = () => {
           )}
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-shrink-0 pr-32 mr-4">
           {/* Edit Mode Toggle */}
           <button
-            className={`px-3 py-1.5 text-sm rounded-md ${
+            className={`px-3 py-1.5 text-sm rounded-md whitespace-nowrap font-medium edit-mode-toggle ${
               isEditMode
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
             onClick={handleToggleEditMode}
           >
@@ -140,7 +140,7 @@ const DashboardPage: React.FC = () => {
           {isEditMode && (
             <div className="relative">
               <button
-                className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700"
+                className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 whitespace-nowrap font-medium shadow-sm"
                 onClick={() => setIsWidgetPickerOpen(!isWidgetPickerOpen)}
               >
                 Add Widget
@@ -148,7 +148,7 @@ const DashboardPage: React.FC = () => {
 
               {/* Widget Picker Dropdown */}
               {isWidgetPickerOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 border border-gray-200 dark:border-gray-700">
+                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 widget-dropdown">
                   <div className="p-2 border-b border-gray-200 dark:border-gray-700">
                     <h3 className="font-medium text-gray-700 dark:text-gray-300">
                       Select Widget Type
@@ -173,7 +173,7 @@ const DashboardPage: React.FC = () => {
           {/* Save Dashboard Button (Only visible in edit mode) */}
           {isEditMode && (
             <button
-              className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 whitespace-nowrap edit-mode-toggle"
               onClick={handleSaveDashboard}
             >
               Save Dashboard
@@ -183,7 +183,7 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Dashboard Content - Takes full available width */}
-      <div className="flex-grow w-full overflow-auto">
+      <div className="flex-grow w-full max-w-full overflow-hidden dashboard-content-container dashboard-content">
         <DashboardGrid />
       </div>
 

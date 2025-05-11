@@ -1,6 +1,6 @@
 # Project: Industrial IoT Monitoring Dashboard (Frontend Only)
 
-You are a senior frontend developer working with a team building an industrial-grade, responsive, drag-and-drop dashboard UI for monitoring devices via a REST API. The backend handles MQTT, Modbus, WebSocket, and data polling. Your job is to build the **UI and UX layer** using the tools listed below.
+You are a senior frontend developer working with a team building an industrial-grade, responsive, configurable dashboard UI for monitoring devices via a REST API. The backend handles MQTT, Modbus, WebSocket, and data polling. Your job is to build the **UI and UX layer** using the tools listed below.
 
 ---
 
@@ -8,7 +8,7 @@ You are a senior frontend developer working with a team building an industrial-g
 - **Framework**: React + TypeScript (with Vite)
 - **UI**: Tailwind CSS
 - **State Management**: Redux Toolkit
-- **Drag & Drop Dashboard**: `react-grid-layout`
+- **Dashboard Layout**: `react-grid-layout`
 - **Data Visualization**: Recharts, and optional SVG/Canvas-based gauges
 - **API**: REST API (specs provided externally)
 - **Persistence**: MongoDB is managed by the backend (you only fetch/update via API)
@@ -27,7 +27,7 @@ You WILL:
 - Fetch configuration and real-time data via REST API
 - Display data widgets bound to API tag data
 - Allow users to configure, layout, save, and load dashboards
-- Allow drag-and-drop and resize of components using `react-grid-layout`
+- Allow widget resize and positioning using `react-grid-layout`
 
 ---
 
@@ -75,56 +75,6 @@ You WILL:
 - Follow responsive design best practices
 - Add mock data/fallbacks for development
 - Support edit mode vs view-only mode (for deployment)
-
----
-
-## 🧠 Claude Code Rules
-1. Stay consistent with this architecture—**do not generate backend code**.
-2. Always provide a high-level summary before showing code.
-3. Do not switch between approaches (e.g., don't use both local and Redux state for the same feature).
-4. Keep layout modular (pages, components, hooks, store, services).
-5. Every time a new file is created, show file path and filename.
-6. Do not leave placeholder or incomplete code without noting TODOs.
-7. Never re-implement polling, MQTT, or Modbus logic—these are REST-fed.
-
----
-
-## 🧾 Deliverables
-- `src/` structure with:
-  - `components/` → Reusable UI pieces
-  - `pages/` → Dashboard view
-  - `store/` → Redux slices
-  - `services/` → API call logic
-  - `types/` → Shared types/interfaces
-- `App.tsx` with routes (support single dashboard route like `/dashboard/:id`)
-- Basic working example of:
-  - One dashboard with one chart widget bound to a tag
-  - Editable widget settings
-  - Saving & loading dashboard from API
-- `README.md` with setup instructions
-
----
-
-## 🧪 Testing and Mocking
-- Include mock API responses using MSW or static JSONs if backend is not ready
-- Add clear TODOs for backend integration points
-
----
-
-## 📚 Documentation
-Claude must generate and maintain:
-- A clean `README.md`
-- Widget usage examples in markdown
-- A brief troubleshooting section (React/Vite issues, Redux debugging)
-
----
-
-## 🧩 Starting Point
-Claude, please begin by:
-1. Creating the base folder structure
-2. Creating `types.ts` for `Dashboard`, `Widget`, and `Tag`
-3. Creating Redux slices: `dashboardSlice`, `widgetSlice`
-4. Creating a basic `DashboardPage.tsx` with drag-and-drop layout and mock widget
 
 ---
 
@@ -185,6 +135,119 @@ Claude, please begin by:
 
 ---
 
-Claude, do not proceed unless each step is complete and consistent. After each step, summarize progress, update the project structure tree, and ask what to do next.
+## 📋 Project Development History
 
-Remember: Keep this PROMPT.md file updated with initial requirements and all additional instructions throughout the project to maintain consistency.
+### Phase 1: Initial Implementation
+- Created base folder structure (components, pages, store, services, types)
+- Implemented basic Redux slices (dashboard, widget, ui)
+- Created initial dashboard page with react-grid-layout
+- Implemented basic widget types (Chart, Gauge, Numeric, Status, Table, Alert)
+- Added mock API services for development
+
+### Phase 2: Enhancing Dashboard Functionality
+- Improved widget configurations and settings
+- Added theme settings page with light/dark mode
+- Created dashboard management page for loading/saving dashboards
+- Enhanced widget styling and layout options
+- Implemented responsive design improvements
+
+### Phase 3: Bug Fixes and Enhancement
+- Fixed widget resize handle issues (made handles more visible)
+- Resolved React hook ordering problems in EnhancedChartWidget
+- Created SimpleChartWidget as a stable replacement for complex chart components
+- Added CSS fixes for widget dimensions and responsiveness
+- Improved Card component to better handle layout and sizing
+- Removed drag-and-drop functionality to simplify component architecture
+- Enhanced dashboard grid configuration for better responsiveness
+
+### Phase 4: Pending Enhancements
+- Complete widget-tag binding functionality
+- Enhance property editor with all customization options
+- Implement advanced theme configurations
+- Add container components (tabs, groups, cards)
+- Create dashboard templates and presets
+- Implement dashboard search and filtering
+- Add dashboard preview thumbnails
+
+---
+
+## 🧾 Current Project Status
+
+### Completed Features
+- Basic dashboard layout with widget resize functionality
+- Multiple widget types (Chart, Gauge, Numeric, Status, Table, Alert)
+- Theme settings with light/dark mode
+- Dashboard management (create, save, load)
+- Widget configuration modal
+- Responsive layout for different screen sizes
+
+### In Progress
+- Enhanced widget customization options
+- Improved property editor interface
+- Container components
+- Dashboard templates
+
+### Pending
+- Advanced theme settings (complete color customization)
+- Dashboard categories and tags
+- Search and filter capabilities
+- Preview thumbnails and sharing options
+- Enhanced data binding UI
+
+---
+
+## 🧩 Next Development Steps
+
+1. Add side navigation drawer for engineer role
+   - Create side navigation component with drawer functionality
+   - Make theme settings page accessible from side navigation
+   - Make dashboard building page accessible from side navigation
+   - Implement proper routing between these pages
+   - Ensure proper styling and responsiveness for the navigation drawer
+
+2. Complete the widget property editor
+   - Implement all customization options
+   - Enhance tag binding UI
+   - Add display range configuration
+
+3. Create container components
+   - Implement Tab containers
+   - Add Group containers
+   - Create Card containers with headers
+
+4. Enhance theme capabilities
+   - Complete color palette configuration
+   - Add font and typography settings
+   - Create theme presets and import/export
+
+5. Improve dashboard management
+   - Implement dashboard templates
+   - Add categories and tags
+   - Create search and filter functionality
+
+---
+
+## 🧠 Implementation Notes
+
+1. Always maintain project structure and consistency
+2. Follow established patterns for new components
+3. Update types as needed for new features
+4. Use existing utility functions and avoid duplication
+5. Keep Redux state as the source of truth
+6. Add proper error handling for all API operations
+7. Maintain responsive design principles
+
+## 🔄 Development Workflow
+
+After every modification to the codebase:
+1. The project will be automatically rebuilt
+2. All unit tests will be executed
+3. Any issues found will be fixed before proceeding
+4. Upon successful completion, each task must be explicitly marked as complete
+
+For each development task:
+1. Clearly define the scope and objectives
+2. Make changes in small, logical increments
+3. Follow existing patterns and architecture
+4. Provide a summary of changes made
+5. Declare "Task completed" when finished

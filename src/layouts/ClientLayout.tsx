@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../components/ui/layout/Card';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/layout/Card';
 import { Row } from '../components/ui/layout/Row';
 import { Column } from '../components/ui/layout/Column';
 import { Button } from '../components/ui/navigation/Button';
 import { useTheme } from '../redux/hooks/useTheme';
-import { ThemeSelector } from '../components/ThemeSelector';
 import LayoutBuilder from '../components/layout-builder/LayoutBuilder';
 
 interface ClientLayoutProps {

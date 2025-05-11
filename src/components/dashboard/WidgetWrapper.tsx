@@ -47,23 +47,64 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
 
   const isSelected = selectedWidgetId === widget.id;
 
+  // Add data with JSON.stringify for debug info
+  const debugInfo = {
+    id: widget.id,
+    type: widget.type,
+    w: widget.w,
+    h: widget.h,
+    isEditMode,
+    isSelected
+  };
+
+  // Log this to console
+  React.useEffect(() => {
+    console.log("Widget wrapper props:", debugInfo);
+
+    // Force update CSS custom properties to match current dimensions
+    const widgetElements = document.querySelectorAll(`.react-grid-item`);
+    widgetElements.forEach(el => {
+      const itemId = el.getAttribute('data-grid-key');
+      if (itemId === widget.id) {
+        // Set actual width and height as CSS variables
+        (el as HTMLElement).style.setProperty('--actual-width', `${el.clientWidth}px`);
+        (el as HTMLElement).style.setProperty('--actual-height', `${el.clientHeight}px`);
+        (el as HTMLElement).style.setProperty('--cols', String(widget.w));
+        console.log(`Set actual dimensions for ${widget.id}:`, {
+          width: `${el.clientWidth}px`,
+          height: `${el.clientHeight}px`,
+          cols: widget.w
+        });
+      }
+    });
+  }, [JSON.stringify(debugInfo)]);
+
   return (
     <div
       className={`widget-wrapper h-full w-full flex flex-col shadow-md rounded-lg overflow-hidden transition-all
-        ${isEditMode ? 'cursor-move' : ''}
+        ${isEditMode ? 'cursor-move resizable-widget' : ''}
         ${isSelected && isEditMode ? 'ring-2 ring-blue-500' : ''}
         bg-white dark:bg-gray-700 relative`}
       onClick={handleWidgetClick}
+      style={{
+        "--cols": widget.w,
+        "--margin": "6px",
+        "--resizable": isEditMode ? "all" : "none"
+      } as React.CSSProperties}
+      data-debug={JSON.stringify(debugInfo)}
     >
       <div className="widget-header px-4 py-2 border-b border-gray-200 dark:border-gray-600 font-medium bg-gray-50 dark:bg-gray-800 flex justify-between items-center">
         <h3 className="text-gray-800 dark:text-gray-200 truncate">{widget.title}</h3>
+        {isEditMode && (
+          <span className="text-xs text-gray-500 bg-gray-100 px-1 rounded">
+            {widget.w}x{widget.h}
+          </span>
+        )}
       </div>
       <div className="widget-body flex-grow p-3 overflow-auto min-h-[100px]">
         {renderWidget()}
       </div>
-      {isEditMode && (
-        <div className="absolute bottom-0 right-0 w-4 h-4 bg-blue-500 opacity-50 rounded-tl cursor-se-resize pointer-events-none" />
-      )}
+      {/* Remove custom resize handle to use the ones from react-grid-layout */}
     </div>
   );
 };

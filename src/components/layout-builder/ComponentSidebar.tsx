@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentType, useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/layout/Card';
 import { Column } from '../ui/layout/Column';
-import { Button } from '../ui/navigation/Button';
 
 // Component item that can be selected from the sidebar
 interface ComponentItemProps {

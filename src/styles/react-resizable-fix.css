@@ -1,0 +1,148 @@
+/**
+ * React Resizable Handle Fix
+ * This overrides the default React Resizable handle styles to ensure proper
+ * handle visibility and interaction for all resize directions.
+ */
+
+/* Base handle styles */
+.react-resizable-handle {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+  background-image: none !important;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: auto;
+}
+
+/* Handle visibility */
+.react-grid-item > .react-resizable-handle {
+  position: absolute;
+  display: block !important;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.react-grid-item:hover > .react-resizable-handle {
+  opacity: 1;
+}
+
+/* South-east resize handle (bottom-right corner) */
+.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  border-radius: 0 0 2px 0;
+}
+
+/* South resize handle (bottom-center) */
+.react-resizable-handle-s {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  cursor: s-resize;
+}
+
+/* East resize handle (right-center) */
+.react-resizable-handle-e {
+  right: 0;
+  top: 50%;
+  margin-top: -5px;
+  cursor: e-resize;
+}
+
+/* West resize handle (left-center) */
+.react-resizable-handle-w {
+  left: 0;
+  top: 50%;
+  margin-top: -5px;
+  cursor: w-resize;
+}
+
+/* North-east resize handle (top-right corner) */
+.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  border-radius: 0 2px 0 0;
+}
+
+/* North-west resize handle (top-left corner) */
+.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  border-radius: 2px 0 0 0;
+}
+
+/* South-west resize handle (bottom-left corner) */
+.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  border-radius: 0 0 0 2px;
+}
+
+/* North resize handle (top-center) */
+.react-resizable-handle-n {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  cursor: n-resize;
+}
+
+/* Additional resizing behavior */
+.react-grid-item.resizing {
+  z-index: 1;
+  will-change: width, height;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+/* Make the resize handles more visible with a line indicator */
+.react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+}
+
+.react-resizable-handle-e::after,
+.react-resizable-handle-w::after {
+  width: 2px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.react-resizable-handle-s::after,
+.react-resizable-handle-n::after {
+  width: 20px;
+  height: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Corner handles should have corner indicators */
+.react-resizable-handle-se::after,
+.react-resizable-handle-ne::after,
+.react-resizable-handle-sw::after,
+.react-resizable-handle-nw::after {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@/components/ui/navigation/Button';
-import { Row } from '@/components/ui/layout/Row';
 import { useLayout, LayoutType } from '@/contexts/LayoutContext';
 
 /**
@@ -14,11 +13,12 @@ export const LayoutSwitcher: React.FC = () => {
   };
 
   return (
-    <Row gap="sm" className="fixed top-0 right-0 p-2 z-50">
+    <div className="layout-switcher-container">
       <Button
         size="sm"
         variant={layout === 'engineer' ? 'default' : 'outline'}
         onClick={() => handleLayoutChange('engineer')}
+        className={`layout-switcher-btn ${layout === 'engineer' ? 'active' : 'inactive'}`}
       >
         Engineer
       </Button>
@@ -26,9 +26,10 @@ export const LayoutSwitcher: React.FC = () => {
         size="sm"
         variant={layout === 'client' ? 'default' : 'outline'}
         onClick={() => handleLayoutChange('client')}
+        className={`layout-switcher-btn ${layout === 'client' ? 'active' : 'inactive'}`}
       >
         Client
       </Button>
-    </Row>
+    </div>
   );
 };

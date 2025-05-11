@@ -76,7 +76,7 @@ interface EngineerSidebarProps {
   onCollapseChange?: (collapsed: boolean) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isActive, onClick, collapsed }) => {
+const NavItem: React.FC<NavItemProps> = ({ icon, label, isActive, onClick, collapsed }) => {
   return (
     <Button
       variant={isActive ? "default" : "ghost"}

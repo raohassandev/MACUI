@@ -33,7 +33,14 @@ export const StatusWidget: React.FC<StatusWidgetProps> = ({ widget }) => {
         
         // Use the last value from the tag
         if (tagData.lastValue !== undefined) {
-          setValue(tagData.lastValue);
+          // Set the value, ensuring it's the correct type
+          if (tagData.lastValue !== undefined) {
+            if (typeof tagData.lastValue === 'string' || typeof tagData.lastValue === 'number') {
+              setValue(tagData.lastValue);
+            } else {
+              setValue(String(tagData.lastValue));
+            }
+          }
           
           // Handle blinking on status change
           if (widget.blink && value !== null && value !== tagData.lastValue) {

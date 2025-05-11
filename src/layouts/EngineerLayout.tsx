@@ -1,5 +1,4 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import EngineerSidebar from '../components/navigation/EngineerSidebar';
 
 interface EngineerLayoutProps {
@@ -11,7 +10,7 @@ interface EngineerLayoutProps {
  * options and debug tools intended for developers and engineers.
  */
 export const EngineerLayout = ({ children }: EngineerLayoutProps) => {
-  const location = useLocation();
+  // Storage for sidebar state
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Listen for sidebar collapse state changes
@@ -30,13 +29,14 @@ export const EngineerLayout = ({ children }: EngineerLayoutProps) => {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-background text-text relative">
+    <div className={`flex min-h-screen bg-background text-text relative ${isSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
       {/* Sidebar */}
       <EngineerSidebar onCollapseChange={(collapsed) => setIsSidebarCollapsed(collapsed)} />
 
       {/* Main Content with adjusted left margin for sidebar */}
       <div
-        className={`flex-1 ml-0 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'} p-0 overflow-auto transition-all duration-300 w-full`}
+        className={`flex-1 ml-0 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'} p-0 overflow-hidden transition-all duration-300 w-full`}
+        style={{ width: `calc(100vw - ${isSidebarCollapsed ? 64 : 256}px)` }}
       >
         <div className="w-full h-full">
           {children}

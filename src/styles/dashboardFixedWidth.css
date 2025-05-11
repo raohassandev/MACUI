@@ -1,0 +1,59 @@
+/* Dashboard fixed width adjustments to work with sidebar */
+@media (min-width: 768px) {
+  .dashboard-content-container {
+    width: calc(100% - var(--sidebar-width, 256px)) !important;
+    margin-left: 0 !important;
+    transition: width 0.3s ease;
+  }
+
+  .sidebar-collapsed .dashboard-content-container {
+    --sidebar-width: 64px;
+  }
+
+  .sidebar-expanded .dashboard-content-container {
+    --sidebar-width: 256px;
+  }
+}
+
+/* This ensures the dashboard inner container properly fills the width  */
+.dashboard-inner-container {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background-color: #cce5ff !important; /* Light blue background from d.png */
+}
+
+/* Ensure the dashboard grid properly fits the container */
+.dashboard-grid-container .react-grid-layout {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Fix widget sizing */
+.dashboard-grid-container .react-grid-item {
+  width: calc(100% / 12 * var(--cols, 1) - var(--margin, 10px)) !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure widgets are fully visible */
+.widget-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Ensure resize handles are visible even on small screens */
+.react-resizable-handle {
+  transform: scale(1.2);
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.react-grid-item:hover .react-resizable-handle {
+  opacity: 1;
+}

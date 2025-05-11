@@ -55,20 +55,20 @@ const SimpleChartWidget: React.FC<SimpleChartWidgetProps> = ({ widget }) => {
     generateData();
     
     // Setup refresh interval if configured
-    const refreshInterval = widget.config?.refreshInterval || 0;
+    const refreshInterval = (widget as any).refreshRate || 0;
     let intervalId: number | undefined;
-    
+
     if (refreshInterval > 0) {
       intervalId = window.setInterval(generateData, refreshInterval * 1000);
     }
-    
+
     // Clean up on unmount
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
     };
-  }, [widget.id, widget.config?.refreshInterval]);
+  }, [widget.id, (widget as any).refreshRate]);
   
   // Render appropriate chart based on widget.config.chartType
   const renderChart = () => {
@@ -80,16 +80,8 @@ const SimpleChartWidget: React.FC<SimpleChartWidgetProps> = ({ widget }) => {
       return <div className="text-red-500 p-4">{error}</div>;
     }
     
-    const chartType = widget.config?.chartType || 'line';
-    const chartTitle = widget.config?.title || 'Chart';
-    const chartColor = widget.config?.color || '#3B82F6';
-    
-    // Common props for all charts
-    const commonProps = {
-      width: '100%',
-      height: '100%',
-      data: data
-    };
+    const chartType = (widget as any).chartType || 'line';
+    const chartColor = '#3B82F6';
     
     // Return appropriate chart based on type
     switch (chartType) {
@@ -165,7 +157,7 @@ const SimpleChartWidget: React.FC<SimpleChartWidgetProps> = ({ widget }) => {
       className="widget-content chart-widget"
     >
       <div className="flex flex-col w-full h-full">
-        <div className="font-medium text-lg mb-2">{widget.config?.title || 'Chart'}</div>
+        <div className="font-medium text-lg mb-2">{widget.title || 'Chart'}</div>
         <div className="chart-container flex-1">
           {renderChart()}
         </div>

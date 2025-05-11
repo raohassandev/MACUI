@@ -44,6 +44,9 @@ export interface WidgetBase {
   maxW?: number; // Maximum width
   maxH?: number; // Maximum height
   static?: boolean; // If static, cannot be moved
+  isDraggable?: boolean; // If widget can be dragged
+  isResizable?: boolean; // If widget can be resized
+  resizeHandles?: string[]; // Resize handles to show
 }
 
 // Chart widget properties
