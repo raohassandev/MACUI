@@ -72,6 +72,10 @@ interface NavItemProps {
   collapsed: boolean;
 }
 
+interface EngineerSidebarProps {
+  onCollapseChange?: (collapsed: boolean) => void;
+}
+
 const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isActive, onClick, collapsed }) => {
   return (
     <Button
@@ -86,7 +90,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isActive, onClick, c
   );
 };
 
-export const EngineerSidebar: React.FC = () => {
+export const EngineerSidebar: React.FC<EngineerSidebarProps> = ({ onCollapseChange }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -105,21 +109,30 @@ export const EngineerSidebar: React.FC = () => {
   };
   
   const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+    const newCollapsedState = !isCollapsed;
+    setIsCollapsed(newCollapsedState);
+
+    // Store collapse state in localStorage
+    localStorage.setItem('sidebarCollapsed', String(newCollapsedState));
+
+    // Notify parent component about collapse state change
+    if (onCollapseChange) {
+      onCollapseChange(newCollapsedState);
+    }
   };
   
   return (
     <div className="relative">
       {/* Menu toggle button for mobile */}
-      <div className="md:hidden fixed top-4 left-4 z-20">
-        <Button variant="outline" size="icon" onClick={toggleSidebar}>
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <Button variant="outline" size="icon" onClick={toggleSidebar} className="bg-background shadow-md">
           <MenuIcon />
         </Button>
       </div>
       
       {/* Collapse toggle button (desktop only, visible when sidebar is open) */}
-      <div className={`hidden md:block fixed ${isCollapsed ? 'left-[72px]' : 'left-[240px]'} top-4 z-20 transition-all duration-300`}>
-        <Button variant="outline" size="icon" onClick={toggleCollapse}>
+      <div className={`hidden md:block fixed ${isCollapsed ? 'left-[72px]' : 'left-[240px]'} top-4 z-50 transition-all duration-300`}>
+        <Button variant="outline" size="icon" onClick={toggleCollapse} className="bg-background shadow-md">
           {isCollapsed ? (
             // Expand icon (right arrow)
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" 
@@ -136,11 +149,11 @@ export const EngineerSidebar: React.FC = () => {
       {/* Sidebar */}
       <div
         className={`
-          fixed top-0 left-0 h-full z-10
+          fixed top-0 left-0 h-full z-20
           transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          ${isCollapsed ? 'md:w-16' : 'md:w-64'} 
-          bg-background border-r border-border
+          ${isCollapsed ? 'md:w-16' : 'md:w-64'}
+          bg-background border-r border-border shadow-md
           p-4
         `}
       >
