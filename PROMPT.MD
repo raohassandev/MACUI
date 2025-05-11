@@ -253,6 +253,18 @@ You WILL:
    - Add font and typography settings
    - Create theme presets and import/export
 
+6. Add Edit/Delete Buttons on Every Widget:
+   - Display "Edit" and "Delete" buttons on hover over each widget
+   - Trigger the right sidebar for editing on "Edit" button click
+   - Dispatch an action to remove the widget on "Delete" button click
+   - Ensure buttons are styled minimally and do not interfere with drag/resize behavior
+
+7. Add Right Sidebar for Widget Editing:
+   - Create a persistent right sidebar that opens when a widget is selected
+   - Move all widget-related configuration options (tag binding, titles, colors, font, etc.) into this sidebar
+   - Sync changes to the Redux store immediately
+   - Ensure it integrates with uiSlice for state tracking (selectedWidgetId, isEditing, etc.)
+
 ---
 
 ## 🧠 Implementation Notes
