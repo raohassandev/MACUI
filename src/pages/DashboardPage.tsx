@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { 
-  fetchDashboard, 
+import {
+  fetchDashboard,
   createNewDashboard,
   saveDashboard,
   toggleDashboardEditMode,
@@ -10,9 +10,8 @@ import {
   selectCurrentDashboard,
   selectDashboardEditMode
 } from '../redux/slices/dashboardSlice';
-import { selectWidgetTemplates, selectWidget, startConfiguringWidget } from '../redux/slices/widgetSlice';
+import { selectWidgetTemplates, selectWidget } from '../redux/slices/widgetSlice';
 import DashboardGrid from '../components/dashboard/DashboardGrid';
-import WidgetConfigModal from '../components/dashboard/WidgetConfigModal';
 import { v4 as uuidv4 } from 'uuid';
 
 const DashboardPage: React.FC = () => {
@@ -52,19 +51,20 @@ const DashboardPage: React.FC = () => {
   const handleAddWidget = (templateId: string) => {
     const template = widgetTemplates.find(t => t.id === templateId);
     if (template && currentDashboard) {
-      // Create a new widget based on the template
+      // We'll use the predefined positions from the template
+
+      // Create a new widget with the template's predefined position
       const newWidget = {
         ...template,
-        id: uuidv4(), // Generate a new ID
+        id: uuidv4() // Generate a new ID
       };
-      
+
       dispatch(addWidget(newWidget));
       setIsWidgetPickerOpen(false);
-      
-      // Open configuration modal for the new widget
+
+      // Select the new widget to open the sidebar editor
       setTimeout(() => {
         dispatch(selectWidget(newWidget.id));
-        dispatch(startConfiguringWidget(newWidget.id));
       }, 100);
     }
   };
@@ -187,8 +187,7 @@ const DashboardPage: React.FC = () => {
         <DashboardGrid />
       </div>
 
-      {/* Widget Configuration Modal */}
-      <WidgetConfigModal />
+      {/* Widget editing is now handled by the sidebar in EngineerLayout */}
     </div>
   );
 };

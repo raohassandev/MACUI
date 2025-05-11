@@ -15,11 +15,16 @@ const API_BASE_URL = '/api';
  */
 export const fetchTags = async (): Promise<Tag[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/tags`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch tags: ${response.statusText}`);
-    }
-    return await response.json();
+    // Skip actual API call to avoid HTML errors in development
+    // When API is ready, uncomment the code below
+    // const response = await fetch(`${API_BASE_URL}/tags`);
+    // if (!response.ok) {
+    //   throw new Error(`Failed to fetch tags: ${response.statusText}`);
+    // }
+    // return await response.json();
+
+    // Always return mock data for development
+    return mockTags;
   } catch (error) {
     console.error('Error fetching tags:', error);
     // Return mock data for development

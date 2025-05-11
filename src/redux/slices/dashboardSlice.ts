@@ -120,21 +120,23 @@ const dashboardSlice = createSlice({
       if (state.currentDashboard) {
         // Update widget positions based on react-grid-layout data
         const layout = action.payload;
-        state.currentDashboard.widgets = state.currentDashboard.widgets.map(widget => {
-          const layoutItem = layout.find((item: any) => item.i === widget.id);
-          if (layoutItem) {
-            return {
-              ...widget,
-              x: layoutItem.x,
-              y: layoutItem.y,
-              w: layoutItem.w,
-              h: layoutItem.h,
-            };
-          }
-          return widget;
-        });
-        // Store the raw layout for reference
-        state.currentDashboard.layout = layout;
+
+        // Simple direct update of widget positions
+        if (Array.isArray(layout) && layout.length > 0) {
+          state.currentDashboard.widgets = state.currentDashboard.widgets.map(widget => {
+            const layoutItem = layout.find((item: any) => item.i === widget.id);
+            if (layoutItem) {
+              return {
+                ...widget,
+                x: layoutItem.x,
+                y: layoutItem.y,
+                w: layoutItem.w,
+                h: layoutItem.h,
+              };
+            }
+            return widget;
+          });
+        }
       }
     },
     clearDashboardError: (state) => {

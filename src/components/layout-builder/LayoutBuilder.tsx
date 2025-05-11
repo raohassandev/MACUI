@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutBuilderProvider } from '@/contexts/LayoutBuilderContext';
-import { Row } from '@/components/ui/layout/Row';
-import { Column } from '@/components/ui/layout/Column';
+import { LayoutBuilderProvider } from '../../contexts/LayoutBuilderContext';
+import { Row } from '../../components/ui/layout/Row';
+import { Column } from '../../components/ui/layout/Column';
 import ComponentSidebar from './ComponentSidebar';
 import LayoutDropZone from './LayoutDropZone';
 import LayoutControls from './LayoutControls';

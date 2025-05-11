@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useLayoutBuilder } from '@/contexts/LayoutBuilderContext';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/layout/Card';
-import { Button } from '@/components/ui/navigation/Button';
-import { Input } from '@/components/ui/inputs/Input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/inputs/Select';
-import { Row } from '@/components/ui/layout/Row';
-import { Column } from '@/components/ui/layout/Column';
+import { useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '../../components/ui/layout/Card';
+import { Button } from '../../components/ui/navigation/Button';
+import { Input } from '../../components/ui/inputs/Input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/inputs/Select';
+import { Row } from '../../components/ui/layout/Row';
+import { Column } from '../../components/ui/layout/Column';
 
 export const LayoutControls: React.FC = () => {
   const { state, createLayout, setCurrentLayout, saveLayout } = useLayoutBuilder();

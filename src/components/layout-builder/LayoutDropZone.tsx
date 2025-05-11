@@ -1,7 +1,7 @@
 import React from 'react';
-import { useLayoutBuilder } from '@/contexts/LayoutBuilderContext';
+import { useLayoutBuilder } from '../../contexts/LayoutBuilderContext';
 import { DraggableComponent } from './DraggableComponent';
-import { Card, CardContent } from '@/components/ui/layout/Card';
+import { Card, CardContent } from '../../components/ui/layout/Card';
 
 export const LayoutDropZone: React.FC = () => {
   const { state } = useLayoutBuilder();

@@ -1,8 +1,7 @@
 import React from 'react';
-import { useLayout } from '@/contexts/LayoutContext';
+import { useLayout } from '../contexts/LayoutContext';
 import { EngineerLayout } from './EngineerLayout';
 import { ClientLayout } from './ClientLayout';
-import { LayoutSwitcher } from '@/components/LayoutSwitcher';
 
 interface MainLayoutProps {
   children: React.ReactNode;
