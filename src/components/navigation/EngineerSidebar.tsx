@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../ui/navigation/Button';
-import { Card } from '../ui/layout/Card';
 
 // Icons
 const DashboardIcon = () => (
@@ -57,29 +56,39 @@ const MenuIcon = () => (
   </svg>
 );
 
+const CollapseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" 
+       stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="m15 6-6 6 6 6" />
+  </svg>
+);
+
 interface NavItemProps {
   to: string;
   icon: React.ReactNode;
   label: string;
   isActive: boolean;
   onClick: () => void;
+  collapsed: boolean;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isActive, onClick }) => {
+const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isActive, onClick, collapsed }) => {
   return (
     <Button
       variant={isActive ? "default" : "ghost"}
-      className={`w-full justify-start mb-1 ${isActive ? "bg-primary text-primary-foreground" : ""}`}
+      className={`w-full justify-${collapsed ? 'center' : 'start'} mb-1 ${isActive ? "bg-primary text-primary-foreground" : ""}`}
       onClick={onClick}
+      title={collapsed ? label : undefined}
     >
-      <span className="mr-2">{icon}</span>
-      <span>{label}</span>
+      <span className={collapsed ? '' : 'mr-2'}>{icon}</span>
+      {!collapsed && <span>{label}</span>}
     </Button>
   );
 };
 
 export const EngineerSidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -91,12 +100,36 @@ export const EngineerSidebar: React.FC = () => {
     return location.pathname.startsWith(path);
   };
   
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+  
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+  
   return (
     <div className="relative">
-      {/* Mobile menu toggle button */}
-      <div className="md:hidden absolute top-4 left-4 z-20">
-        <Button variant="outline" size="icon" onClick={() => setIsOpen(!isOpen)}>
+      {/* Menu toggle button for mobile */}
+      <div className="md:hidden fixed top-4 left-4 z-20">
+        <Button variant="outline" size="icon" onClick={toggleSidebar}>
           <MenuIcon />
+        </Button>
+      </div>
+      
+      {/* Collapse toggle button (desktop only, visible when sidebar is open) */}
+      <div className={`hidden md:block fixed ${isCollapsed ? 'left-[72px]' : 'left-[240px]'} top-4 z-20 transition-all duration-300`}>
+        <Button variant="outline" size="icon" onClick={toggleCollapse}>
+          {isCollapsed ? (
+            // Expand icon (right arrow)
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" 
+                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          ) : (
+            // Collapse icon (left arrow)
+            <CollapseIcon />
+          )}
         </Button>
       </div>
       
@@ -104,36 +137,39 @@ export const EngineerSidebar: React.FC = () => {
       <div
         className={`
           fixed top-0 left-0 h-full z-10
-          transform transition-transform duration-300 ease-in-out
+          transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:translate-x-0 md:static
+          ${isCollapsed ? 'md:w-16' : 'md:w-64'} 
           bg-background border-r border-border
-          w-64 p-4
+          p-4
         `}
       >
-        <div className="mt-4 space-y-1 mb-8">
+        <div className={`mt-14 space-y-1 mb-8 ${isCollapsed ? 'px-0' : 'px-2'}`}>
           <NavItem
             to="/dashboards"
             icon={<DashboardIcon />}
             label="Dashboards"
             isActive={isActive("/dashboard")}
             onClick={() => handleNavigate("/dashboards")}
+            collapsed={isCollapsed}
           />
-
+          
           <NavItem
             to="/theme-settings"
             icon={<ThemeIcon />}
             label="Theme Settings"
             isActive={isActive("/theme-settings")}
             onClick={() => handleNavigate("/theme-settings")}
+            collapsed={isCollapsed}
           />
-
+          
           <NavItem
             to="/components"
             icon={<ComponentsIcon />}
             label="Component Demo"
             isActive={isActive("/components")}
             onClick={() => handleNavigate("/components")}
+            collapsed={isCollapsed}
           />
         </div>
         
@@ -142,7 +178,7 @@ export const EngineerSidebar: React.FC = () => {
           <Button 
             variant="outline" 
             className="w-full" 
-            onClick={() => setIsOpen(false)}
+            onClick={toggleSidebar}
           >
             Close Menu
           </Button>
@@ -153,7 +189,7 @@ export const EngineerSidebar: React.FC = () => {
       {isOpen && (
         <div 
           className="md:hidden fixed inset-0 bg-black/50 z-0"
-          onClick={() => setIsOpen(false)}
+          onClick={toggleSidebar}
         />
       )}
     </div>
