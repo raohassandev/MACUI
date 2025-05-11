@@ -16,9 +16,13 @@ const DashboardGrid: React.FC = () => {
   const isEditMode = useAppSelector(selectDashboardEditMode);
 
   // Handle layout changes from react-grid-layout
-  const handleLayoutChange = (layout: any) => {
-    dispatch(updateLayout(layout));
-  };
+  // Use memoization to prevent unnecessary dispatches that can cause infinite loops
+  const handleLayoutChange = React.useCallback((layout: any) => {
+    // Only dispatch if we're in edit mode and layout is actually different
+    if (isEditMode && JSON.stringify(currentDashboard?.layout) !== JSON.stringify(layout)) {
+      dispatch(updateLayout(layout));
+    }
+  }, [dispatch, isEditMode, currentDashboard?.layout]);
 
   if (!currentDashboard) {
     return (

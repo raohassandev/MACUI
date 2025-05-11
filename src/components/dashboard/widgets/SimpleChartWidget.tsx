@@ -162,12 +162,13 @@ const SimpleChartWidget: React.FC<SimpleChartWidgetProps> = ({ widget }) => {
   
   return (
     <Card
-      title={widget.config?.title || 'Chart'}
       className="widget-content chart-widget"
-      bodyClassName="chart-container"
     >
-      <div className="chart-container">
-        {renderChart()}
+      <div className="flex flex-col w-full h-full">
+        <div className="font-medium text-lg mb-2">{widget.config?.title || 'Chart'}</div>
+        <div className="chart-container flex-1">
+          {renderChart()}
+        </div>
       </div>
     </Card>
   );

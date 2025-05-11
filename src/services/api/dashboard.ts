@@ -34,11 +34,20 @@ export const fetchDashboards = async (): Promise<Dashboard[]> => {
  */
 export const fetchDashboardById = async (id: string): Promise<Dashboard> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/dashboards/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch dashboard: ${response.statusText}`);
+    // Skip actual API call in development to avoid HTML errors
+    // Uncomment below when API is ready
+    // const response = await fetch(`${API_BASE_URL}/dashboards/${id}`);
+    // if (!response.ok) {
+    //   throw new Error(`Failed to fetch dashboard: ${response.statusText}`);
+    // }
+    // return await response.json();
+
+    // Always use mock data for now to avoid HTML errors
+    const mockDashboard = mockDashboards.find(d => d.id === id);
+    if (!mockDashboard) {
+      throw new Error(`Dashboard with id ${id} not found`);
     }
-    return await response.json();
+    return mockDashboard;
   } catch (error) {
     console.error(`Error fetching dashboard ${id}:`, error);
     // Return mock data for development
