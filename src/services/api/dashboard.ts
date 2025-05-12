@@ -33,24 +33,28 @@ export const fetchDashboards = async (): Promise<Dashboard[]> => {
  * @returns Promise<Dashboard>
  */
 export const fetchDashboardById = async (id: string): Promise<Dashboard> => {
-  try {
-    // Skip actual API call in development to avoid HTML errors
-    // Uncomment below when API is ready
-    // const response = await fetch(`${API_BASE_URL}/dashboards/${id}`);
-    // if (!response.ok) {
-    //   throw new Error(`Failed to fetch dashboard: ${response.statusText}`);
-    // }
-    // return await response.json();
+  // Skip actual API call in development mode
+  const useMockData = true; // Set to false when real API is available
 
-    // Always use mock data for now to avoid HTML errors
+  if (useMockData) {
+    console.log(`Mock API: Fetching dashboard ${id}`);
     const mockDashboard = mockDashboards.find(d => d.id === id);
     if (!mockDashboard) {
-      throw new Error(`Dashboard with id ${id} not found`);
+      console.warn(`Dashboard with id ${id} not found, returning first dashboard`);
+      return mockDashboards[0];
     }
     return mockDashboard;
+  }
+
+  // Only run this code when real API is available
+  try {
+    const response = await fetch(`${API_BASE_URL}/dashboards/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch dashboard: ${response.statusText}`);
+    }
+    return await response.json();
   } catch (error) {
     console.error(`Error fetching dashboard ${id}:`, error);
-    // Return mock data for development
     return mockDashboards.find(d => d.id === id) || mockDashboards[0];
   }
 };
@@ -61,6 +65,24 @@ export const fetchDashboardById = async (id: string): Promise<Dashboard> => {
  * @returns Promise<Dashboard>
  */
 export const createDashboard = async (dashboard: Omit<Dashboard, 'id'>): Promise<Dashboard> => {
+  // Skip actual API call in development mode
+  const useMockData = true; // Set to false when real API is available
+
+  if (useMockData) {
+    console.log(`Mock API: Creating new dashboard`);
+    // Create mock dashboard
+    const mockDashboard: Dashboard = {
+      ...dashboard,
+      id: `dashboard-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    // Add to mock dashboards (for development)
+    mockDashboards.push(mockDashboard);
+    return mockDashboard;
+  }
+
+  // Only run this code when real API is available
   try {
     const response = await fetch(`${API_BASE_URL}/dashboards`, {
       method: 'POST',
@@ -75,16 +97,12 @@ export const createDashboard = async (dashboard: Omit<Dashboard, 'id'>): Promise
     return await response.json();
   } catch (error) {
     console.error('Error creating dashboard:', error);
-    // Return mock created dashboard
-    const mockDashboard: Dashboard = {
+    return {
       ...dashboard,
       id: `dashboard-${Date.now()}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-    };
-    // Add to mock dashboards (for development)
-    mockDashboards.push(mockDashboard);
-    return mockDashboard;
+    } as Dashboard;
   }
 };
 
@@ -95,6 +113,24 @@ export const createDashboard = async (dashboard: Omit<Dashboard, 'id'>): Promise
  * @returns Promise<Dashboard>
  */
 export const updateDashboard = async (id: string, dashboard: Dashboard): Promise<Dashboard> => {
+  // Skip actual API call in development mode
+  const useMockData = true; // Set to false when real API is available
+
+  if (useMockData) {
+    console.log(`Mock API: Updating dashboard ${id}`);
+    // Update mock dashboard
+    const index = mockDashboards.findIndex(d => d.id === id);
+    if (index >= 0) {
+      mockDashboards[index] = {
+        ...dashboard,
+        updatedAt: new Date().toISOString(),
+      };
+      return mockDashboards[index];
+    }
+    return dashboard;
+  }
+
+  // Only run this code when real API is available
   try {
     const response = await fetch(`${API_BASE_URL}/dashboards/${id}`, {
       method: 'PUT',
@@ -109,15 +145,6 @@ export const updateDashboard = async (id: string, dashboard: Dashboard): Promise
     return await response.json();
   } catch (error) {
     console.error(`Error updating dashboard ${id}:`, error);
-    // Update mock dashboard
-    const index = mockDashboards.findIndex(d => d.id === id);
-    if (index >= 0) {
-      mockDashboards[index] = {
-        ...dashboard,
-        updatedAt: new Date().toISOString(),
-      };
-      return mockDashboards[index];
-    }
     return dashboard;
   }
 };

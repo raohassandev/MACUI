@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import {
   fetchDashboard,
@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const DashboardPage: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   
   const currentDashboard = useAppSelector(selectCurrentDashboard);
@@ -29,11 +30,30 @@ const DashboardPage: React.FC = () => {
   // Fetch dashboard on mount and when ID changes
   useEffect(() => {
     if (id && id !== 'new') {
+      console.log("Fetching dashboard with ID:", id);
       dispatch(fetchDashboard(id));
     } else if (id === 'new') {
+      console.log("Creating new dashboard");
       dispatch(createNewDashboard());
     }
   }, [dispatch, id]);
+
+  // When a dashboard is loaded or changes, make sure it's in edit mode to show widgets properly
+  useEffect(() => {
+    if (currentDashboard) {
+      console.log("Dashboard loaded:", currentDashboard);
+      console.log("Dashboard widgets:", currentDashboard.widgets);
+
+      // Add a short delay to ensure the dashboard is fully loaded
+      setTimeout(() => {
+        // Force edit mode to ensure widgets are displayed
+        if (!isEditMode) {
+          console.log("Enabling edit mode to ensure widgets display correctly");
+          dispatch(toggleDashboardEditMode(true));
+        }
+      }, 300);
+    }
+  }, [currentDashboard, dispatch]);
 
   // Toggle edit mode
   const handleToggleEditMode = () => {
@@ -141,32 +161,10 @@ const DashboardPage: React.FC = () => {
             <div className="relative" style={{ zIndex: 9999 }}>
               <button
                 className="px-3 py-1.5 text-sm bg-green-600 text-white rounded-md hover:bg-green-700 whitespace-nowrap font-medium shadow-sm"
-                onClick={() => setIsWidgetPickerOpen(!isWidgetPickerOpen)}
+                onClick={() => navigate(`/dashboard/${id}/widget/new`)}
               >
                 Add Widget
               </button>
-
-              {/* Widget Picker Dropdown */}
-              {isWidgetPickerOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 widget-dropdown" style={{ zIndex: 9999 }}>
-                  <div className="p-2 border-b border-gray-200 dark:border-gray-700">
-                    <h3 className="font-medium text-gray-700 dark:text-gray-300">
-                      Select Widget Type
-                    </h3>
-                  </div>
-                  <div className="max-h-60 overflow-y-auto">
-                    {widgetTemplates.map(template => (
-                      <button
-                        key={template.id}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        onClick={() => handleAddWidget(template.id)}
-                      >
-                        {template.title} ({template.type})
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 

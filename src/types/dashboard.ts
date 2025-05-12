@@ -26,7 +26,12 @@ export type WidgetType =
   | 'numeric'
   | 'status'
   | 'table'
-  | 'alert';
+  | 'alert'
+  | 'heatmap'
+  | 'state-timeline'
+  | 'multi-stat'
+  | 'advanced-gauge'
+  | 'advanced-chart';
 
 // Base properties for all widgets
 export interface WidgetBase {
@@ -128,6 +133,131 @@ export interface AlertWidget extends WidgetBase {
   showDescription?: boolean;
 }
 
+// Heatmap widget properties
+export interface HeatmapWidget extends WidgetBase {
+  type: 'heatmap';
+  tagId: string;
+  gridSize?: number;
+  patternType?: 'radial' | 'gradient' | 'hotspots' | 'random';
+  showLegend?: boolean;
+  colorScheme?: {
+    minColor: string;
+    midColor?: string;
+    maxColor: string;
+  };
+}
+
+// State Timeline widget properties
+export interface StateTimelineWidget extends WidgetBase {
+  type: 'state-timeline';
+  tagIds: string[];
+  tagLabels?: string[];
+  timeRange: number; // Time range in milliseconds
+  showLegend?: boolean;
+  stateColors?: Record<string, string>; // Mapping of state names to colors
+}
+
+// Multi-Stat Panel widget properties
+export interface MultiStatWidget extends WidgetBase {
+  type: 'multi-stat';
+  tagIds: string[];
+  statLabels?: Record<string, string>; // Mapping of tag IDs to display names
+  layout?: 'grid' | 'list';
+  displayFormat?: string;
+  showSparkline?: boolean;
+  showTrend?: boolean;
+  showUnits?: boolean;
+  sparklinePoints?: number;
+  thresholds?: {
+    value: number;
+    color: string;
+  }[];
+}
+
+// Advanced Gauge widget properties
+export interface AdvancedGaugeWidget extends WidgetBase {
+  type: 'advanced-gauge';
+  minValue: number;
+  maxValue: number;
+  gaugeStyle: 'radial' | 'speedometer';
+  size?: number;
+  arcWidth?: number;
+  pointerWidth?: number;
+  pointerColor?: string;
+  needleColor?: string;
+  startColor?: string;
+  endColor?: string;
+  segments?: number;
+  segmentLabels?: Array<{
+    text: string;
+    position: 'INSIDE' | 'OUTSIDE';
+    fontSize?: string;
+    color?: string;
+  }>;
+  showLabels?: boolean;
+  showValue?: boolean;
+  decimalPlaces?: number;
+  animated?: boolean;
+  animationDuration?: number;
+  subTitle?: string;
+  valueText?: string;
+  thresholds?: {
+    value: number;
+    color: string;
+    label?: string;
+  }[];
+}
+
+// Advanced Chart widget properties
+export interface AdvancedChartWidget extends WidgetBase {
+  type: 'advanced-chart';
+  timeRange: number; // in milliseconds
+  chartType: 'line' | 'bar' | 'area';
+  tagId?: string;
+  dataPoints?: number;
+  additionalTags?: string[];
+  additionalChartTypes?: ('line' | 'bar' | 'area')[];
+  pattern?: 'sine' | 'trend' | 'steps' | 'random';
+  trendDirection?: 'up' | 'down';
+  colors?: string[];
+  lineColor?: string;
+  areaColor?: string;
+  strokeWidth?: number;
+  showDots?: boolean;
+  showGrid?: boolean;
+  showLegend?: boolean;
+  legendPosition?: 'top' | 'right' | 'bottom' | 'left';
+  yAxisLabel?: string;
+  yAxisMin?: number;
+  yAxisMax?: number;
+  y2AxisLabel?: string;
+  useSecondYAxis?: boolean[];
+  showBrush?: boolean;
+  autoScale?: boolean;
+  stacked?: boolean;
+  animations?: boolean;
+  showTooltip?: boolean;
+  zoom?: boolean;
+  description?: string;
+  annotations?: {
+    id?: string;
+    type?: 'line' | 'area';
+    position?: 'x' | 'y';
+    value?: number | string;
+    startValue?: number | string;
+    endValue?: number | string;
+    color?: string;
+    label?: string;
+    labelPosition?: 'top' | 'bottom' | 'left' | 'right' | 'center';
+  }[];
+  thresholds?: {
+    value: number;
+    color: string;
+    label?: string;
+    maxValue?: number;
+  }[];
+}
+
 // Union type for all widget types
 export type Widget =
   | ChartWidget
@@ -135,7 +265,12 @@ export type Widget =
   | NumericWidget
   | StatusWidget
   | TableWidget
-  | AlertWidget;
+  | AlertWidget
+  | HeatmapWidget
+  | StateTimelineWidget
+  | MultiStatWidget
+  | AdvancedGaugeWidget
+  | AdvancedChartWidget;
 
 // Dashboard definition
 export interface Dashboard {

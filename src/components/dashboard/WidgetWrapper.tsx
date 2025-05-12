@@ -9,6 +9,11 @@ import { StatusWidget } from './widgets/StatusWidget';
 import { TableWidget } from './widgets/TableWidget';
 import { AlertWidget } from './widgets/AlertWidget';
 import SimpleChartWidget from './widgets/SimpleChartWidget';
+import HeatmapWidget from './widgets/HeatmapWidget';
+import StateTimelineWidget from './widgets/StateTimelineWidget';
+import MultiStatWidget from './widgets/MultiStatWidget';
+import AdvancedGaugeWidget from './widgets/AdvancedGaugeWidget';
+import AdvancedChartWidget from './widgets/AdvancedChartWidget';
 
 interface WidgetWrapperProps {
   widget: Widget;
@@ -56,6 +61,16 @@ const WidgetWrapper: React.FC<WidgetWrapperProps> = ({ widget }) => {
         return <TableWidget widget={widget} />;
       case 'alert':
         return <AlertWidget widget={widget} />;
+      case 'heatmap':
+        return <HeatmapWidget widget={widget} />;
+      case 'state-timeline':
+        return <StateTimelineWidget widget={widget} />;
+      case 'multi-stat':
+        return <MultiStatWidget widget={widget} />;
+      case 'advanced-gauge':
+        return <AdvancedGaugeWidget widget={widget} />;
+      case 'advanced-chart':
+        return <AdvancedChartWidget widget={widget} />;
       default:
         return <div>Unknown widget type</div>;
     }

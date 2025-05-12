@@ -7,6 +7,7 @@ import { ComponentDemoPage } from './pages/ComponentDemoPage';
 import DashboardPage from './pages/DashboardPage';
 import DashboardListPage from './pages/DashboardListPage';
 import ThemeSettingsPage from './pages/ThemeSettingsPage';
+import WidgetConfigPage from './pages/WidgetConfigPage';
 import MainLayout from './layouts/MainLayout';
 
 function App() {
@@ -20,16 +21,19 @@ function App() {
                 {/* Dashboard Routes */}
                 <Route path="/dashboard/:id" element={<DashboardPage />} />
                 <Route path="/dashboard" element={<Navigate to="/dashboard/new" />} />
-                
+
+                {/* Widget Configuration Route */}
+                <Route path="/dashboard/:dashboardId/widget/new" element={<WidgetConfigPage />} />
+
                 {/* Dashboard List Page */}
                 <Route path="/dashboards" element={<DashboardListPage />} />
-                
+
                 {/* Theme Settings Page */}
                 <Route path="/theme-settings" element={<ThemeSettingsPage />} />
-                
+
                 {/* Component Demo Page */}
                 <Route path="/components" element={<ComponentDemoPage />} />
-                
+
                 {/* Default Route */}
                 <Route path="/" element={<DashboardListPage />} />
                 <Route path="*" element={<Navigate to="/" />} />
